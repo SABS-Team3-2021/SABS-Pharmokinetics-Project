@@ -1,17 +1,9 @@
 #
-# Model class
+# Abstract Model class for all models
 #
 
-class Model:
-    """A Pharmokinetic (PK) model
+from abc import ABC, abstractmethod
 
-    Parameters
-    ----------
-
-    value: numeric, optional
-        an example paramter
-
-    """
-    def __init__(self, value=42):
-        self.value = value
-
+class AbstractModel(ABC):
+    @abstractmethod
+    def solve(self): pass

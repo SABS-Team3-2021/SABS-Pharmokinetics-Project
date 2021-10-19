@@ -2,16 +2,20 @@
 # Protocol class
 #
 
-class Protocol:
-    """A Pharmokinetic (PK) protocol
+import typing
+from abc import ABC, abstractmethod
 
-    Parameters
-    ----------
+class AbstractProtocol(ABC):
+    # Return a string explanation of the protocol
+    @abstractmethod
+    def __str__(self) -> str: pass
 
-    value: numeric, optional
-        an example paramter
+    # Get protocol property names
+    @abstractmethod
+    def properties(self) -> typing.Set[str]: pass
 
-    """
-    def __init__(self, value=43):
-        self.value = value
+    # Get the protocol property
+    @abstractmethod
+    def __getitem__(self, key: str): pass
+
 
