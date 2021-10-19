@@ -2,7 +2,7 @@ import pkmodel
 import pandas as pd
 import matplotlib.pyplot as plt
 
-### Demo 1
+### Demo 1: Solve the equation dy/dx = -ky
 '''
 demoProtocol = pkmodel.DemoProtocol(k=1, x0=0, y0=10)
 print(demoProtocol)
@@ -17,6 +17,7 @@ demoSolution.writeToFile('data/demo1.csv')
 #'''
 
 ### Demo 2
+'''#
 reactionProtocol = pkmodel.DemoReactionProtocol(k_12 = 1, k_23 = 0.5, theta_1_0 = 1, theta_2_0 = 0, theta_3_0 = 0, t_0 = 0)
 reactionFwdSolution = pkmodel.DemoNumpySolution()
 
@@ -42,3 +43,5 @@ def plot(data):
     plt.plot(data['t'], data['theta_2'])
     plt.plot(data['t'], data['theta_3'])
     plt.show()
+#'''
+
