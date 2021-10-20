@@ -1,8 +1,11 @@
 #
-# Solution class
+# Abstract Solution class
 #
 
-class Solution:
+from abc import ABC, abstractmethod
+import numpy as np
+
+class AbstractSolution(ABC):
     """A Pharmokinetic (PK) model solution
 
     Parameters
@@ -12,6 +15,21 @@ class Solution:
         an example paramter
 
     """
-    def __init__(self, value=44):
-        self.value = value
+    
+    @abstractmethod
+    def report(self, data) -> None:
+        """ Report data as a column vector
+        """
+        pass
+
+    @abstractmethod
+    def __getitem__(self, i: int) -> np.ndarray:
+        """ Return data as a column vector
+        """
+        pass
+
+    @abstractmethod
+    def writeToFile(self, filename: str) -> None:
+        pass
+
 
