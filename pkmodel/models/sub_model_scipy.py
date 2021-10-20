@@ -4,7 +4,7 @@ import numpy as np
 import scipy.integrate
 
 from ..abstractModel import AbstractModel
-from parameters import AbstractParameters
+from ..abstractParameters import AbstractParameters
 from ..abstractDataCollector import AbstractDataCollector
 
 

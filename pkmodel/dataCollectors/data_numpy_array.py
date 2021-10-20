@@ -14,14 +14,15 @@ class Data2NumpyArray(AbstractDataCollector):
         self.column_length = number_timesteps
         self.column_headers = names
         self.row_width = len(names)
-        self.__content = np.zeros(number_timesteps, self.row_width)
+        self.__content = np.zeros((number_timesteps, self.row_width))
         self.__index = 0
 
     def report(self, data: np.ndarray) -> np.array:
         """Input data as a column vector into the array
         at each timestep
         """
-        assert data.shape == (self.row_width, 1)
+        assert data.shape == (self.row_width, 1), 'Invalid Data Shape'
+        assert self.__index < self.column_length, 'Too many datapoints reported'
         self.__content[self.__index, :] = np.transpose(data)
         self.__index += 1
 
@@ -43,7 +44,7 @@ class Data2NumpyArray(AbstractDataCollector):
          data in csv format
         """
         with open(filename, "w") as f:
-            f.write(",".join(self.__content))
+            f.write(",".join(self.column_headers))
             f.write("\n")
             for i in range(self.column_length):
                 f.write(",".join([str(x) for x in self.__content[i, :]]))
