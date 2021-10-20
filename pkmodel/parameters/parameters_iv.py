@@ -1,4 +1,4 @@
-from .parameters import AbstractParameters
+from ..abstractParameters import AbstractParameters
 
 class IV_Parameters(AbstractParameters):
     '''

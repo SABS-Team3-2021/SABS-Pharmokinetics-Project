@@ -1,4 +1,4 @@
-from .parameters import AbstractParameters
+from ..abstractParameters import AbstractParameters
 
 class Subcut_Parameters(AbstractParameters):
     '''
