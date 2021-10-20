@@ -20,5 +20,9 @@ class TestParameters(unittest.TestCase):
     def test_IVParameters(self):
         self.helperTestConstruct(pk.IV_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL'})
         self.helperTestRetrieve(pk.IV_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL'})
-
         self.assertRaises(AssertionError, self.helperTestConstruct, pk.IV_Parameters, {'Q_p1', 'V_c'})
+
+    def test_SubCutParameters(self):
+        self.helperTestConstruct(pk.Subcut_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL', 'k_a'})
+        self.helperTestRetrieve(pk.Subcut_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL', 'k_a'})
+        self.assertRaises(AssertionError, self.helperTestConstruct, pk.Subcut_Parameters, {'Q_p1', 'V_c'})

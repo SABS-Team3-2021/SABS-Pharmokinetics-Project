@@ -1,4 +1,4 @@
-from parameters import AbstractParameters
+from .parameters import AbstractParameters
 
 class Subcut_Parameters(AbstractParameters):
     '''
@@ -11,9 +11,9 @@ class Subcut_Parameters(AbstractParameters):
         for param in expect_params:
             assert param in kwargs, 'Missing parameter "{}"'.format(param)
         self.params = {key : kwargs[key] for key in kwargs}
-        assert len(self.params) == 4, 'Too many parameters for the IV model'
+        #assert len(self.params) == len(expect_params), 'Too many parameters for the IV model'
             
-    def __getitem__(self, key: str) -> float:
+    def getParam(self, key: str) -> float:
         assert key in self.params
         return self.params[key]
 
