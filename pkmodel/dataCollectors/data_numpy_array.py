@@ -1,4 +1,4 @@
-from data_collector import AbstractDataCollector
+from ..data_collector import AbstractDataCollector
 import numpy as np
 
 class Data2NumpyArray(AbstractDataCollector):
