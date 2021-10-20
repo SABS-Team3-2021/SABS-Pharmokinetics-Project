@@ -1,4 +1,4 @@
-from ..data_collector import AbstractDataCollector
+from ..abstractDataCollector import AbstractDataCollector
 import numpy as np
 
 
