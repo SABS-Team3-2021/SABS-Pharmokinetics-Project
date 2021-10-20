@@ -1,11 +1,11 @@
 #
-# Abstract Model class
+# Abstract Plotting class
 #
 
 from abc import ABC, abstractmethod
 
 
-class AbstractModel(ABC):
+class AbstractPlotter(ABC):
     """A Pharmokinetic (PK) model
 
     Parameters
@@ -17,9 +17,9 @@ class AbstractModel(ABC):
     """
 
     @abstractmethod
-    def solve(self):
+    def plot(self, filename: str) -> None:
         """
-        Solve using parameters and write output to solution
+        Plot data in file
         """
         pass
 
