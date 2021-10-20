@@ -25,11 +25,14 @@ class IvModelScipy(AbstractModel):
     def solve(self):
         """ Solve IV problem and output to solution
 
-        Parameters:
+        It gets the parameters using the parameter class method.
+
+        It writes line by line the solution of the ODEs using
+        the solution class method. List format: [time, q_c, q_p].
         """
-        Q_pc = self.parameters.getParam("Q_p1")
+        Q_pc = self.parameters.getParam("Q_pc")
         V_c = self.parameters.getParam("V_c")
-        V_p = self.parameters.getParam("V_p1")
+        V_p = self.parameters.getParam("V_p")
         CL = self.parameters.getParam("CL")
         initial_conditions = [self.parameters.getParam("q_c0"),
                               self.parameters.getParam("q_p0")]
@@ -45,6 +48,9 @@ class IvModelScipy(AbstractModel):
             V_p : volume of peripheral compartment (mL)
             CL : clearance/elimination rate from the central compartment (mL/h)
 
+            Returns:
+            List containing differential equations, in the form:
+            [dqc_dt, dqp_dt]
             """
             q_c, q_p = y
             transfer = Q_pc * (q_c / V_c - q_p / V_p)
@@ -61,7 +67,7 @@ class IvModelScipy(AbstractModel):
         t = sol.t
         y = sol.y
         N = t.shape[0]
-        columnNames = ['t', 'q_c', 'q_p']
+        columnNames = ["t", "q_c", "q_p"]
         self.solution.begin(columnNames, N)
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))
