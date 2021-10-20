@@ -7,8 +7,17 @@ of Parmokinetic (PK) models
 # Import version info
 from .version_info import VERSION_INT, VERSION  # noqa
 
-# Import main classes
-from .model import Model    # noqa
-from .protocol import Protocol    # noqa
-from .solution import Solution     # noqa
-from .data_collector import AbstractDataCollector
+
+# Import main abstract classes
+from .abstractModel import AbstractModel    # noqa
+from .abstractParameters import AbstractParameters    # noqa
+from .abstractDataCollector import AbstractSolution     # noqa
+
+
+# Import Parameters
+from .parameters.parameters_iv import IV_Parameters
+from .parameters.parameters_sub import Subcut_Parameters
+
+# Import Models
+
+# Import Data Collectors

@@ -1,23 +1,23 @@
-from parameters import AbstractParameters
+from ..abstractParameters import AbstractParameters
 
-class IV_Parameters(AbstractParameters):
+class Subcut_Parameters(AbstractParameters):
     '''
     Class stores parameters specifically for the IV system
     as a dictionary
     '''
 
     def __init__(self, *args, **kwargs):
-        expect_params = ['Q_p1', 'V_c', 'V_p1', 'CL']
+        expect_params = ['Q_p1', 'V_c', 'V_p1', 'CL','k_a']
         for param in expect_params:
             assert param in kwargs, 'Missing parameter "{}"'.format(param)
         self.params = {key : kwargs[key] for key in kwargs}
-        # assert len(self.params) == 4, 'Too many parameters for the IV model'
+        #assert len(self.params) == len(expect_params), 'Too many parameters for the IV model'
             
     def getParam(self, key: str) -> float:
         assert key in self.params
         return self.params[key]
 
-    def params_set(self) -> set:
+    def params_list(self) -> list:
         '''
         Returns a complete list of the the parameters 
         '''
