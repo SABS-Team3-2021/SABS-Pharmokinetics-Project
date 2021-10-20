@@ -5,7 +5,7 @@ import scipy.integrate
 
 from model import AbstractModel
 from parameters import AbstractParameters
-from solution import AbstractSolution
+from data_collector import AbstractDataCollector
 
 
 class SubModelScipy(AbstractModel):
@@ -13,7 +13,7 @@ class SubModelScipy(AbstractModel):
     """
 
     def __init__(self, parameters: AbstractParameters,
-                 solution: AbstractSolution,
+                 solution: AbstractDataCollector,
                  dosefunction: typing.Callable[[float], float],
                  timespan: float, nsteps: int):
         self.parameters = parameters
