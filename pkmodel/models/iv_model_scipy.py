@@ -3,9 +3,9 @@ import typing
 import numpy as np
 import scipy.integrate
 
-from model import AbstractModel
+from ..abstractModel import AbstractModel
 from parameters import AbstractParameters
-from data_collector import AbstractDataCollector
+from ..abstractDataCollector import AbstractDataCollector
 
 
 class IvModelScipy(AbstractModel):
