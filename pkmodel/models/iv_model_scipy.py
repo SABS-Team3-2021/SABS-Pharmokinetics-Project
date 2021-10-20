@@ -60,7 +60,7 @@ class IvModelScipy(AbstractModel):
 
         sol = scipy.integrate.solve_ivp(
             fun=lambda t, y: pk_iv_model(t, y, Q_pc, V_c, V_p, CL),
-            t_span=self.timespan,
+            t_span=[t_eval[0], t_eval[-1]],
             y0=initial_conditions, t_eval=t_eval
         )
 
@@ -72,5 +72,5 @@ class IvModelScipy(AbstractModel):
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))
             arr[0] = t[i]
-            arr[1:] = y[:, i]
+            arr[1:, 0] = y[:, i]
             self.solution.report(arr)

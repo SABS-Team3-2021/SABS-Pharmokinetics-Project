@@ -2,7 +2,7 @@ from ..abstractDataCollector import AbstractDataCollector
 import numpy as np
 
 
-class Data2NumpyArray(AbstractDataCollector):
+class NumpyDataCollector(AbstractDataCollector):
     """
     Class receives data from model and saves to a numpy array
     with an option to write to a csv file
@@ -14,7 +14,7 @@ class Data2NumpyArray(AbstractDataCollector):
         self.column_length = number_timesteps
         self.column_headers = names
         self.row_width = len(names)
-        self.__content = np.zeros(number_timesteps, self.row_width)
+        self.__content = np.zeros((number_timesteps, self.row_width))
         self.__index = 0
 
     def report(self, data: np.ndarray) -> np.array:
@@ -43,7 +43,7 @@ class Data2NumpyArray(AbstractDataCollector):
          data in csv format
         """
         with open(filename, "w") as f:
-            f.write(",".join(self.__content))
+            f.write(",".join(self.column_headers))
             f.write("\n")
             for i in range(self.column_length):
                 f.write(",".join([str(x) for x in self.__content[i, :]]))

@@ -7,12 +7,11 @@ class Subcut_Parameters(AbstractParameters):
     '''
 
     def __init__(self, *args, **kwargs):
-        expect_params = ['Q_p1', 'V_c', 'V_p1', 'CL','k_a']
+        expect_params = ['Q_pc', 'V_c', 'V_p', 'CL','k_a', 'q_c0', 'q_p0', 'q_e0']
         for param in expect_params:
             assert param in kwargs, 'Missing parameter "{}"'.format(param)
         self.params = {key : kwargs[key] for key in kwargs}
-        #assert len(self.params) == len(expect_params), 'Too many parameters for the IV model'
-            
+    
     def getParam(self, key: str) -> float:
         assert key in self.params
         return self.params[key]
