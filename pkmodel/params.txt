@@ -1,0 +1,19 @@
+This documents the variables defined in params.json
+
+Variables in the IV (Intravenous Bolus) Model:
+
+    Vc: [mL] - the volume of the central compartment
+    Vp: [mL] - the volume of the peripheral compartment
+
+    Qpc: [mL/h] - the transition rate between central compartment and peripheral compartment
+    CL: [mL/h] - the clearance/elimination rate from the central compartment
+
+    q_c0: [ng] - the initial drug quantity in the central compartment
+    q_p0: [ng] - the initial drug quantity in the central compartment
+
+
+Additional Variables in the Sub (Subcutaneous) Model:
+
+    Ve: [mL] - the volume of the entrance compartment
+    ka: [/h] - the “absorption” rate from the entrance compartment for the subcutaneous dosing.
+    q_p0: [ng] - the initial drug quantity in the entrance compartment
