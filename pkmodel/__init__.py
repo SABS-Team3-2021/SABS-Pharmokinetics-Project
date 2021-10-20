@@ -7,6 +7,7 @@ of Parmokinetic (PK) models
 # Import version info
 from .version_info import VERSION_INT, VERSION  # noqa
 
+
 # Import main abstract classes
 from .abstractModel import AbstractModel    # noqa
 from .abstractParameters import AbstractParameters    # noqa
