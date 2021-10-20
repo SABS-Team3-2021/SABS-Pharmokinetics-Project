@@ -8,14 +8,14 @@ of Parmokinetic (PK) models
 from .version_info import VERSION_INT, VERSION  # noqa
 
 # Import main abstract classes
-from .model import AbstractModel    # noqa
-from .parameters import AbstractParameters    # noqa
-from .solution import AbstractSolution     # noqa
+from .abstractModel import AbstractModel    # noqa
+from .abstractParameters import AbstractParameters    # noqa
+from .abstractDataCollector import AbstractSolution     # noqa
 
 
 # Import Parameters
-from .parameters_iv import IV_Parameters
-from .parameters_sub import Subcut_Parameters
+from .parameters.parameters_iv import IV_Parameters
+from .parameters.parameters_sub import Subcut_Parameters
 
 # Import Models
 
