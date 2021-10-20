@@ -15,6 +15,9 @@ class AbstractDataCollector(ABC):
         an example paramter
 
     """
+
+    @abstractmethod
+    def begin(self, names: list, number_timesteps: int): pass
     
     @abstractmethod
     def report(self, data) -> None:
