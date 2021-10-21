@@ -30,7 +30,7 @@ class IV_Parameters(AbstractParameters):
         assert key in self.params
         return self.params[key]
 
-    def params_set(self) -> set:
+    def getParameterNames(self) -> set:
         """Returns the complete list of parameters, in the form of a dictionary.
         :return: list of parameters and their keys
         :rtype: dictionary

@@ -32,7 +32,7 @@ class Subcut_Parameters(AbstractParameters):
         assert key in self.params
         return self.params[key]
 
-    def params_list(self) -> list:
+    def getParameterNames(self) -> list:
         """Returns the complete list of parameters, in the form of a dictionary.
         :return: list of parameters and their keys
         :rtype: dictionary

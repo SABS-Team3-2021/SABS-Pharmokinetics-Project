@@ -2,7 +2,7 @@
 """
 
 from abc import ABC, abstractmethod
-
+import typing
 
 class AbstractParameters(ABC):
     """Class in which the methods of the parameters class are
@@ -17,6 +17,14 @@ class AbstractParameters(ABC):
         : param key : parameter name to retrieve
         : return : parameter value
         : rtype : float
+        """
+        pass
+
+    @abstractmethod
+    def getParameterNames(self) -> typing.Set[str]:
+        """Retrieve Parameter Names
+        : return : Set of parameter names
+        : rtype : set[str]
         """
         pass
 
