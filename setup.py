@@ -31,7 +31,6 @@ def get_readme():
         return f.read()
 
 
-# Go!
 setup(
     # Module name (lowercase)
     name='pkmodel',
@@ -45,25 +44,25 @@ setup(
 
     license='MIT license',
 
-    # author='',
+    authors=' Nicholas Fan, Kit Gallagher, Elizabeth Hayman, Luke Heirine, Patricia, Lamirande',
 
     # author_email='',
 
-    maintainer='Martin Robinson',
+    maintainer='Nicholas Fan',
 
-    maintainer_email='martin.robinson@cs.ox.ac.uk',
+    maintainer_email='nickolas.fan@dtc.ox.ac.uk',
 
-    url='https://github.com/SABS-R3/2020-software-engineering-projects-pk',
+    url='https://github.com/NicholasFan235/SABS-Pharmokinetics-Project',
 
     # Packages to include
     packages=find_packages(include=('pkmodel', 'pkmodel.*')),
 
     # List of dependencies
     install_requires=[
-        # Dependencies go here!
         'numpy',
         'matplotlib',
         'scipy',
+        'pandas',
     ],
     extras_require={
         'docs': [
