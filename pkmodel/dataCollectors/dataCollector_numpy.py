@@ -23,7 +23,7 @@ class NumpyDataCollector(AbstractDataCollector):
         """
         assert data.shape == (self.row_width, 1), 'Invalid Data Shape'
         assert self.__index < self.column_length, 'Too many datapoints reported'
-        self.__content[self.__index, :] = np.transpose(data)
+        self.__content[[self.__index], :] = np.transpose(data)
         self.__index += 1
 
     def __getitem__(self, time_point: int) -> np.ndarray:
@@ -36,7 +36,7 @@ class NumpyDataCollector(AbstractDataCollector):
             and time_point >= 0
             and time_point <= self.column_length
         )
-        return np.transpose(self.__content[time_point, :])
+        return np.transpose(self.__content[[time_point], :])
 
     def writeToFile(self, filename: str):
         """

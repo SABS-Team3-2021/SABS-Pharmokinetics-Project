@@ -9,7 +9,7 @@ numReps = 10
 ivSubjects = [pk.IvModelScipy, pk.IVModelBckEuler]
 subSubjects = [pk.SubModelScipy, pk.SubModelBckEuler]
 
-class ModelTest(unittest.TestCase):
+class ModelBasicTest(unittest.TestCase):
     
     @parameterized.expand([(s, random.randint(1, 10), random.randint(100, 1000)) for j in range(numReps) for s in ivSubjects+subSubjects])
     def test_construct(self, subject: pk.AbstractModel, endTime: float, numIters: int):
@@ -18,7 +18,7 @@ class ModelTest(unittest.TestCase):
     @parameterized.expand([(s, random.randint(1, 10), random.randint(100, 1000)) for j in range(numReps) for s in ivSubjects])
     def test_solveModelIV(self, subject: pk.AbstractModel, endTime: float, numIters: int):
         params = self.mockParameters()
-        collector = self.mockDataCollector(3)
+        collector = self.mockDataCollector(4)
         testSubject = subject(params, collector, lambda x: 1, endTime, numIters)
         testSubject.solve()
         for c in [call('Q_pc'), call('V_c'), call('V_p'), call('CL'), call('q_c0'), call('q_p0')]:
@@ -28,7 +28,7 @@ class ModelTest(unittest.TestCase):
     @parameterized.expand([(s, random.randint(1, 10), random.randint(100, 1000)) for j in range(numReps) for s in subSubjects])
     def test_solveModelSci(self, subject: pk.AbstractModel, endTime: float, numIters: int):
         params = self.mockParameters()
-        collector = self.mockDataCollector(4)
+        collector = self.mockDataCollector(5)
         testSubject = subject(params, collector, lambda x: 1, endTime, numIters)
         testSubject.solve()
         for c in [call('Q_pc'), call('V_c'), call('V_p'), call('CL'), call('k_a'), call('q_e0'), call('q_c0'), call('q_p0')]:
