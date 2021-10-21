@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 numpy scipy parameterized pandas
+          pip install flake8 numpy scipy parameterized
           
       
       # Runs all the tests (discover) with unittest
