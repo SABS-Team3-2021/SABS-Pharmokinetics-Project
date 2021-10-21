@@ -7,6 +7,7 @@ from ..abstractModel import AbstractModel
 from ..abstractParameters import AbstractParameters
 from ..abstractDataCollector import AbstractDataCollector
 
+
 @dataclasses.dataclass
 class SubModelBckEuler(AbstractModel):
     parameters: AbstractParameters
@@ -16,11 +17,11 @@ class SubModelBckEuler(AbstractModel):
     numIters: int
 
     def __post_init__(self):
-        self.dt = self.tStop/self.numIters
+        self.dt = self.tStop / self.numIters
 
     def eqMatrix(self, t):
         """Generate the Evolution Matrix M and Bias vector b, where M*q_next = q_prev + b
-        :param t: float, time 
+        :param t: float, time
         :returns : np.ndarray matrix M, np.ndarray column vector b
         """
         Q_pc = self.parameters.getParam("Q_pc")
@@ -29,30 +30,41 @@ class SubModelBckEuler(AbstractModel):
         CL = self.parameters.getParam("CL")
         k_a = self.parameters.getParam("k_a")
 
-        M = np.zeros((3,3))
-        M[0,0] = 1 + self.dt*k_a
-        M[1,0] = -self.dt*k_a
-        M[1,1] = 1 + self.dt*CL/V_c + self.dt*Q_pc/V_c
-        M[1,2] = self.dt*Q_pc/V_p
-        M[2,1] = -self.dt*Q_pc/V_c
-        M[2,2] = 1 + self.dt*Q_pc/V_p
+        M = np.zeros((3, 3))
+        M[0, 0] = 1 + self.dt * k_a
+        M[1, 0] = -self.dt * k_a
+        M[1, 1] = 1 + self.dt * CL / V_c + self.dt * Q_pc / V_c
+        M[1, 2] = self.dt * Q_pc / V_p
+        M[2, 1] = -self.dt * Q_pc / V_c
+        M[2, 2] = 1 + self.dt * Q_pc / V_p
 
         b = np.zeros((3, 1))
-        b[0,0] = self.doseFn(t+self.dt)*self.dt
+        b[0, 0] = self.doseFn(t + self.dt) * self.dt
         return M, b
 
     def solve(self):
-        self.dataCollector.begin(names=['t', 'q_e', 'q_c', 'q_p'], number_timesteps=self.numIters)
-        self.dataCollector.report( np.array([0,
-            self.parameters.getParam('q_e0'),
-            self.parameters.getParam('q_c0'),
-            self.parameters.getParam('q_p0')], ndmin=2).transpose())
+        self.dataCollector.begin(
+            names=["t", "dose", "q_e", "q_c", "q_p"], number_timesteps=self.numIters
+        )
+        self.dataCollector.report(
+            np.array(
+                [
+                    0,
+                    self.doseFn(0),
+                    self.parameters.getParam("q_e0"),
+                    self.parameters.getParam("q_c0"),
+                    self.parameters.getParam("q_p0"),
+                ],
+                ndmin=2,
+            ).transpose()
+        )
 
         for i in range(1, self.numIters):
-            prev = self.dataCollector[i-1]
-            t = prev[0,0] + self.dt
+            prev = self.dataCollector[i - 1]
+            t = prev[0, 0] + self.dt
+            dose = self.doseFn(t)
 
             M, b = self.eqMatrix(t)
-            next = np.matmul(np.linalg.inv(M), prev[1:,[0]] + b)
-            
-            self.dataCollector.report(np.vstack((t, next)))
+            next = np.matmul(np.linalg.inv(M), prev[1:, [0]] + b)
+
+            self.dataCollector.report(np.vstack((t, dose, next)))
