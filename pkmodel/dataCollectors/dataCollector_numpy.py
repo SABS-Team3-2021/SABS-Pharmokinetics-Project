@@ -21,7 +21,8 @@ class NumpyDataCollector(AbstractDataCollector):
         """Input data as a column vector into the array
         at each timestep
         """
-        assert data.shape == (self.row_width, 1)
+        assert data.shape == (self.row_width, 1), 'Invalid Data Shape'
+        assert self.__index < self.column_length, 'Too many datapoints reported'
         self.__content[self.__index, :] = np.transpose(data)
         self.__index += 1
 
@@ -43,8 +44,6 @@ class NumpyDataCollector(AbstractDataCollector):
          data in csv format
         """
         with open(filename, "w") as f:
-            f.write(",".join(self.column_headers))
-            f.write("\n")
+            f.write(",".join(self.column_headers) + '\n')
             for i in range(self.column_length):
-                f.write(",".join([str(x) for x in self.__content[i, :]]))
-                f.write("\n")
+                f.write(",".join([str(x) for x in self.__content[i, :]]) + '\n')
