@@ -23,4 +23,4 @@ from .models.iv_model_scipy import IvModelScipy
 from .models.sub_model_scipy import SubModelScipy
 
 # Import Data Collectors
-from .dataCollectors.data_numpy_array import Data2NumpyArray
+from .dataCollectors.dataCollector_numpy import NumpyDataCollector
