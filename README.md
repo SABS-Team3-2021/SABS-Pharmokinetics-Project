@@ -1,5 +1,7 @@
 # SABS-Pharmokinetics-Project
 
+[![codecov](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project/branch/master/graph/badge.svg?token=TBF4J7A9I3)](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project)
+
 `SABS-Pharmokinetics-Project` provides a user-friendly interface for anyone to explore the behaviour of a basic pharmokinetics model.
 
 
