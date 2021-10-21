@@ -30,6 +30,8 @@ from .models.sub_model_bckEuler import SubModelBckEuler
 # Import Data Collectors
 from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 
+# Import Dose Functions
+from .Block_pulse_dose import blockPulse
 
 # Import Plotters
 from .plotters.plotFromCSV import PlotFromCSV
