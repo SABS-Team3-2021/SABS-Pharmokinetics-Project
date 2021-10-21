@@ -17,6 +17,7 @@ from .abstractDataCollector import AbstractDataCollector     # noqa
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
 from .parameters.parameters_sub import Subcut_Parameters
+from .Block_pulse_dose import blockPulse
 
 # Import Models
 from .models.iv_model_scipy import IvModelScipy
@@ -29,4 +30,4 @@ from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 
 
 # Import Plotters
-#from .plotters.plotFromCSV import PlotFromCSV
+from .plotters.plotFromCSV import PlotFromCSV
