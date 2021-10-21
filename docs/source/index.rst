@@ -10,15 +10,6 @@ Welcome to Pharmokinetics Modelling Project's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
 .. autoclass:: abstractParameters
    :members:
 
@@ -27,3 +18,11 @@ Indices and tables
 
 .. autoclass:: parameters_sub
    :members:
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
