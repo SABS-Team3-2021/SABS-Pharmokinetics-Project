@@ -14,7 +14,7 @@ def generateFnHelperNumpyArray(n: int):
         return np.random.random((n, 1))
     return inner
 
-subjects = [pk.Data2NumpyArray]
+subjects = [pk.NumpyDataCollector]
 generateFnHelpers = [generateFnHelperNumpyArray]
 compareFns = [lambda a,b: a.all()==b.all()]
 
