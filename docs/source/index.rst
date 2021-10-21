@@ -19,11 +19,11 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. automodule:: abstractParameters
+.. autoclass:: abstractParameters
    :members:
 
-.. automodule:: parameters_iv
+.. autoclass:: parameters_iv
    :members:
 
-.. automodule:: parameters_sub
+.. autoclass:: parameters_sub
    :members:
