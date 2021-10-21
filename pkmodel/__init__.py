@@ -32,6 +32,5 @@ from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 
 
 # Import Plotters
-
 from .plotters.plotFromCSV import PlotFromCSV
 
