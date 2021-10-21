@@ -26,3 +26,7 @@ from .models.sub_model_bckEuler import SubModelBckEuler
 
 # Import Data Collectors
 from .dataCollectors.dataCollector_numpy import NumpyDataCollector
+
+
+# Import Plotters
+from .plotters.plotFromCSV import PlotFromCSV
