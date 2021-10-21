@@ -3,8 +3,6 @@ from unittest.mock import Mock, patch
 from parameterized import parameterized
 import pkmodel as pk
 import random
-import os
-import pandas as pd
 import numpy as np
 import string
 import builtins
