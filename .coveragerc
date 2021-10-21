@@ -5,3 +5,5 @@ omit =
     */distutils/*
     tests/*
     */dist-packages/*
+include =
+   /pkmodel/*
