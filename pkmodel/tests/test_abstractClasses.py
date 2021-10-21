@@ -15,3 +15,6 @@ class TestAbstractClasses(unittest.TestCase):
     
     def test_AbstractModel(self):
         pk.AbstractModel.solve(None)
+
+    def test_AbstractPlotter(self):
+        pk.AbstractPlotter.plot(None, '')

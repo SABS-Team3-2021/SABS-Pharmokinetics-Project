@@ -12,6 +12,7 @@ from .version_info import VERSION_INT, VERSION  # noqa
 from .abstractModel import AbstractModel    # noqa
 from .abstractParameters import AbstractParameters    # noqa
 from .abstractDataCollector import AbstractDataCollector     # noqa
+from .abstractPlotter import AbstractPlotter
 
 from .api import solve_iv_toFile, solve_subcut_toFile,\
     create_expDecay_dosing, create_periodic_dosing
