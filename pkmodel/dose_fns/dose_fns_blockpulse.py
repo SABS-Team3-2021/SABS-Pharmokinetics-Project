@@ -9,6 +9,10 @@ class blockpulse():
    
     def add_pulse(self, start_time, stop_time, dose) -> None:
         """ Method to add individual pulses
+            Parameters:
+            start_time: time at beginning of dosing pulse
+            stop_time: time at end of dosing pulse
+            dose: concentration of dose
         """
         self.pulses[start_time, stop_time] = dose
         return
