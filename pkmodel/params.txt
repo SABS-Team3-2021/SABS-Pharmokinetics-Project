@@ -9,7 +9,7 @@ Variables in the IV (Intravenous Bolus) Model:
     CL: [mL/h] - the clearance/elimination rate from the central compartment
 
     q_c0: [ng] - the initial drug quantity in the central compartment
-    q_p0: [ng] - the initial drug quantity in the central compartment
+    q_p0: [ng] - the initial drug quantity in the periphery compartment
 
 
 Additional Variables in the Sub (Subcutaneous) Model:
