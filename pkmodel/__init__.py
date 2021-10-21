@@ -13,7 +13,8 @@ from .abstractModel import AbstractModel    # noqa
 from .abstractParameters import AbstractParameters    # noqa
 from .abstractDataCollector import AbstractDataCollector     # noqa
 
-from .api import solve_iv_toFile, solve_subcut_toFile
+from .api import solve_iv_toFile, solve_subcut_toFile,\
+    create_expDecay_dosing, create_periodic_dosing
 
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
