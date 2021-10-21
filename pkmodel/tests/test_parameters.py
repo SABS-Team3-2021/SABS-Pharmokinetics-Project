@@ -18,11 +18,11 @@ class TestParameters(unittest.TestCase):
             self.assertEqual(testParams[key], testSubject.getParam(key))
 
     def test_IVParameters(self):
-        self.helperTestConstruct(pk.IV_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL'})
-        self.helperTestRetrieve(pk.IV_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL'})
-        self.assertRaises(AssertionError, self.helperTestConstruct, pk.IV_Parameters, {'Q_p1', 'V_c'})
+        self.helperTestConstruct(pk.IV_Parameters, {'Q_pc', 'V_c', 'V_p', 'CL', 'q_c0', 'q_p0'})
+        self.helperTestRetrieve(pk.IV_Parameters, {'Q_pc', 'V_c', 'V_p', 'CL', 'q_c0', 'q_p0'})
+        self.assertRaises(AssertionError, self.helperTestConstruct, pk.IV_Parameters, {'Q_pc', 'V_c'})
 
     def test_SubCutParameters(self):
-        self.helperTestConstruct(pk.Subcut_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL', 'k_a'})
-        self.helperTestRetrieve(pk.Subcut_Parameters, {'Q_p1', 'V_c', 'V_p1', 'CL', 'k_a'})
-        self.assertRaises(AssertionError, self.helperTestConstruct, pk.Subcut_Parameters, {'Q_p1', 'V_c'})
+        self.helperTestConstruct(pk.Subcut_Parameters, {'Q_pc', 'V_c', 'V_p', 'CL', 'k_a', 'q_c0', 'q_p0', 'q_e0'})
+        self.helperTestRetrieve(pk.Subcut_Parameters, {'Q_pc', 'V_c', 'V_p', 'CL', 'k_a', 'q_c0', 'q_p0', 'q_e0'})
+        self.assertRaises(AssertionError, self.helperTestConstruct, pk.Subcut_Parameters, {'Q_pc', 'V_c'})
