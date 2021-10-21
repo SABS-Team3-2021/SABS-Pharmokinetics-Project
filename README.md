@@ -62,20 +62,24 @@ Pharmacokinetics provides a quantitative description for the delivery of a drug 
 
 Our model replicates each of the three behaviours above with a separate compartment, each labelled with an associated suffix (x):
 
- * Entrance (e): This compartment (volume $V_{e}$) represents initial storage of the administered drug, from which it is absorbed at rate $k_{a}$.
- * Centre (c): The central compartment (volume $V_{c}$) links all other compartments, and is responsible for absorbtion and excretion/clearance (at rate $CL$) of the drug.
- * Periphery (p): This compartment (volume $V_{p}$) allows redistribution of the drug from the central compartment, at rate $Q_{pc}$
+ * Entrance (_e_): This compartment (volume _V<sub>e</sub>_) represents initial storage of the administered drug, from which it is absorbed at rate _k<sub>a</sub>_.
+ * Centre (_c_): The central compartment (volume _V<sub>c</sub>_) links all other compartments, and is responsible for absorbtion and excretion/clearance (at rate _CL_) of the drug.
+ * Periphery (_p_): This compartment (volume _V<sub>p</sub>_) allows redistribution of the drug from the central compartment, at rate _Q<sub>pc</sub>_.
 
-Each body is assumed to be kinetically homogeneous. All volumes $V$ are measured in ml, all transition rates $Q$ in ml/h, and all drug concentrations (denoted by $q_{x}$ for compartment x) in ng.
+Each body is assumed to be kinetically homogeneous. All volumes _V_ are measured in ml, all transition rates _Q_ in ml/h, and all drug concentrations (denoted by _q<sub>x</sub>_ for compartment _x_) in ng.
 
 ### Subcutaneous (Sub) Model
 This is expressed within the 'sub' model for a subcutaneous dosing control (for slow drug absorbtion, i.e. through skin tissue), which is represented by the entrance compartment. For interested users, this may be represented by the following system of equations:
 
-$$\frac{dq_{e}}{dt} = Dose(t) - k_{a}q_{e}$$
+<img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{e}}{dt} = Dose(t) - k_{a}q_{e}">  <br /> 
 
-$$\frac{dq_{c}}{dt} = k_{a}q_{e} - \frac{CL}{V_{c}}q_{c} - Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)$$
 
-$$\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)$$
+<img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{c}}{dt} = k_{a}q_{e} - \frac{CL}{V_{c}}q_{c} - Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">  <br /> 
+
+
+<img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">
+
+
 
 where the variables are defined as:
 
@@ -93,9 +97,10 @@ where the variables are defined as:
  ### Intravenous Bolus (IV) Model
  An alternative dosing protocol we represent here is the Intravenous Bolus (IV), where direct injection allows much faster drug delivery. This negates the role of the entrance component, and so the dose is delivered directly to the central compartment. This may be represented by the simpler set of equations, where all terms are defined as above,
 
-$$\frac{dq_{c}}{dt} = Dose(t) - \frac{CL}{V_{c}}q_{c} - Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)$$
+<img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{c}}{dt} = Dose(t) - \frac{CL}{V_{c}}q_{c} - Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">  <br /> 
 
-$$\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)$$
+
+<img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">
 
 ## Output Structure
 The analysis code outputs a labelled `.csv` file, with the time, dose function and drug quantity for each compartment. Users can conduct independant analysis on these files, however we have also implemented basic analysis methods that take these data files and plot the drug quantities in each compartment over time.
