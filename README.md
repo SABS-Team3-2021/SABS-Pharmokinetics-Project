@@ -7,16 +7,55 @@ Contents
 ========
 
  * [Why?](#why)
- * [Model Details](#model-details)
  * [Installation](#installation)
  * [Usage](#usage)
-* [Output Structure](#output-structure)
+ * [Model Details](#model-details)
+ * [Output Structure](#output-structure)
  * [Authors](#authors)
  * [License](#license)
 
 ## Why?
 Pharmokinetic (PK) modelling tracks the levels of substances through an organism, such as in the context of drug delivery. Understanding the pharmokinetics of a drug influences its dosing, benefits and delivery strategy, and plays a key role in clinical decision making. This tool aims to provide an intuituve model to engage stakeholders (including practitioners and patients) in basic pharmokinetic principles.
 
+## Installation
+This module can either be installed by cloning the git repository, or via pip install. Either method will first require python to be installed on your local machine - to check whether python is installed on your machine, run the following command in your terminal (or Powershell for windows):
+
+```bash
+python --version
+```
+
+If you don’t have a version of Python on your system, then this will launch the Microsoft Store and redirect you to the [Python application page](https://www.microsoft.com/en-us/p/python-39/9p7qfqmjrfp70) on Windows. You can also download the latest version of python on all operating systems (or update it if your version number output above is less than 3.6) from the [official installer](https://www.python.org/downloads/). Further instructions are provided by [Real Python](https://realpython.com/installing-python/).
+
+This project may then simply by installed in your terminal (or Powershell for windows) using a package called 'pip' that is installed with python be default. Enter the command:
+
+```bash
+pip install pk-model
+```
+
+All dependancies for this project are listed in `requirements.txt`. This may simply be bulk installed via the command line, using the command:
+
+```bash
+pip install -r requirements.txt
+```
+## Usage
+
+We have developed a user-friendly `pkmodel/api.py` file for new users to run these simulations. 
+ 1. Create a dose function (either use the default or extensive usage examples are provided in the documentation).
+ 2. Chose whether to run the IV or Sub model (see descriptions in [Model Details](#model-details)), and find the appropriate function (`solve_iv_toFile` or `solve_sub_toFile)`.
+ 3. Change parameters in function call to desired values (all parameters have default values assigned, and an explanation below the function).
+
+ Please note that further usage examples, and complete documentation is avaliable at ---readthedocslink---
+
+For example:
+
+```python
+mydoseFn = pk.create_periodic_dosing(1,4,5)
+pk.solve_subcut_toFile('data.csv', doseFn = mydoseFn, tSpan = 25)
+pk.PlotfromCSV('data.csv').plot('png')
+```
+This script generates the following figure:
+
+-- insert figure --
 
 ## Model Details
 Pharmacokinetics provides a quantitative description for the delivery of a drug to a patient, the diffusion of that drug through the plasma/body tissue, and the subsequent clearance of the drug from the patient’s system. 
@@ -57,50 +96,6 @@ where the variables are defined as:
 $$\frac{dq_{c}}{dt} = Dose(t) - \frac{CL}{V_{c}}q_{c} - Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)$$
 
 $$\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)$$
-    
-
-## Installation
-This module can either be installed by cloning the git repository, or via pip install. Either method will first require python to be installed on your local machine - to check whether python is installed on your machine, run the following command in your terminal (or Powershell for windows):
-
-```bash
-python --version
-```
-
-If you don’t have a version of Python on your system, then this will launch the Microsoft Store and redirect you to the [Python application page](https://www.microsoft.com/en-us/p/python-39/9p7qfqmjrfp70) on Windows. You can also download the latest version of python on all operating systems (or update it if your version number output above is less than 3.6) from the [official installer](https://www.python.org/downloads/). Further instructions are provided by [Real Python](https://realpython.com/installing-python/).
-
-This project may then simply by installed in your terminal (or Powershell for windows) using a package called 'pip' that is installed with python be default. Enter the command:
-
-```bash
-pip install pk-model
-```
-
-All dependancies for this project are listed in `requirements.txt`. This may simply be bulk installed via the command line, using the command:
-
-```bash
-pip install -r requirements.txt
-```
-
-
-
-## Usage
-
-We have developed a user-friendly `pkmodel/api.py` file for new users to run these simulations. 
- 1. Create a dose function (either use the default or extensive usage examples are provided in the documentation).
- 2. Chose whether to run the IV or Sub model (see descriptions in [Model Details](#model-details)), and find the appropriate function (`solve_iv_toFile` or `solve_sub_toFile)`.
- 3. Change parameters in function call to desired values (all parameters have default values assigned, and an explanation below the function).
-
- Please note that further usage examples, and complete documentation is avaliable at ---readthedocslink---
-
-For example:
-
-```python
-mydoseFn = pk.create_periodic_dosing(1,4,5)
-pk.solve_subcut_toFile('data.csv', doseFn = mydoseFn, tSpan = 25)
-pk.PlotfromCSV('data.csv').plot('png')
-```
-This script generates the following figure:
-
--- insert figure --
 
 ## Output Structure
 The analysis code outputs a labelled `.csv` file, with the time, dose function and drug quantity for each compartment. Users can conduct independant analysis on these files, however we have also implemented basic analysis methods that take these data files and plot the drug quantities in each compartment over time.
