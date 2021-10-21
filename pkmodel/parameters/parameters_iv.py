@@ -7,7 +7,7 @@ class IV_Parameters(AbstractParameters):
     '''
 
     def __init__(self, *args, **kwargs):
-        expect_params = ['Q_p1', 'V_c', 'V_p1', 'CL']
+        expect_params = ['Q_pc', 'V_c', 'V_p', 'CL', 'q_c0', 'q_p0']
         for param in expect_params:
             assert param in kwargs, 'Missing parameter "{}"'.format(param)
         self.params = {key : kwargs[key] for key in kwargs}

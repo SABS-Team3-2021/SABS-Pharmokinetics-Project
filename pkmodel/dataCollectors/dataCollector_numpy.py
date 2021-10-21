@@ -2,7 +2,7 @@ from ..abstractDataCollector import AbstractDataCollector
 import numpy as np
 
 
-class Data2NumpyArray(AbstractDataCollector):
+class NumpyDataCollector(AbstractDataCollector):
     """
     Class receives data from model and saves to a numpy array
     with an option to write to a csv file
