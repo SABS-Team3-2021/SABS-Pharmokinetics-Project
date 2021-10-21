@@ -9,7 +9,7 @@ numReps = 10
 ivSubjects = [pk.IvModelScipy, pk.IVModelBckEuler]
 subSubjects = [pk.SubModelScipy, pk.SubModelBckEuler]
 
-class ModelTest(unittest.TestCase):
+class ModelBasicTest(unittest.TestCase):
     
     @parameterized.expand([(s, random.randint(1, 10), random.randint(100, 1000)) for j in range(numReps) for s in ivSubjects+subSubjects])
     def test_construct(self, subject: pk.AbstractModel, endTime: float, numIters: int):

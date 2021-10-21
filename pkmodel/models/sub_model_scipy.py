@@ -105,5 +105,5 @@ class SubModelScipy(AbstractModel):
             arr = np.zeros((len(columnNames), 1))
             arr[0] = t[i]
             arr[1] = self.dosefunction(t[i])
-            arr[2, 0] = y[:, i]
+            arr[2:, 0] = y[:, i]
             self.solution.report(arr)
