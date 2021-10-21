@@ -24,18 +24,23 @@ class Subcut_Parameters(AbstractParameters):
     def getParam(self, key: str) -> float:
         """Returns the parameter associated to a certain key in the dictionary.
 
-        :param key: name associated to the parameter
+        :param key: name associated to the parameter to retrieve
         :return: parameter associated to the key
+        :rtyoe: float
         """
         assert key in self.params
         return self.params[key]
 
     def params_list(self) -> list:
         """Returns the complete list of parameters, in the form of a dictionary.
+        :return: list of parameters and their keys
+        :rtype: dictionary
         """
         return self.params.keys()
 
     def __str__(self) -> str:
-        """Returns a string representation of the parameters' dictionary.
+        """Convert to string detailing parameters stored in the dictionary.
+        : return : Description of parameters
+        : rtype : str
         """
         return str(self.params)

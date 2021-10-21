@@ -1,19 +1,16 @@
-#
-# Abstract Parameter class
-#
+"""Module containing the pharmokinetics abstract parameters class.
+"""
 
 from abc import ABC, abstractmethod
 
+
 class AbstractParameters(ABC):
-    """A Pharmokinetic (PK) protocol
+    """Class in which the methods of the parameters class are
+    abstractly defined for the pharmakinetic protocol model.
 
-    Parameters
-    ----------
-
-    value: numeric, optional
-        an example paramter
-
+    It inherits from AbstractParameters.
     """
+
     @abstractmethod
     def getParam(self, key: str) -> float:
         """Retrieve Parameter
@@ -30,5 +27,3 @@ class AbstractParameters(ABC):
         : rtype : str
         """
         pass
-
-    

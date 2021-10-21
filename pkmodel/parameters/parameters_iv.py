@@ -25,16 +25,21 @@ class IV_Parameters(AbstractParameters):
 
         :param key: name associated to the parameter
         :return: parameter associated to the key
+        :rtyoe: float
         """
         assert key in self.params
         return self.params[key]
 
     def params_set(self) -> set:
         """Returns the complete list of parameters, in the form of a dictionary.
+        :return: list of parameters and their keys
+        :rtype: dictionary
         """
         return self.params.keys()
 
     def __str__(self) -> str:
-        """Returns a string representation of the parameters' dictionary.
+        """Convert to string detailing parameters stored in the dictionary.
+        : return : Description of parameters
+        : rtype : str
         """
         return str(self.params)
