@@ -44,8 +44,6 @@ class Data2NumpyArray(AbstractDataCollector):
          data in csv format
         """
         with open(filename, "w") as f:
-            f.write(",".join(self.column_headers))
-            f.write("\n")
+            f.write(",".join(self.column_headers) + '\n')
             for i in range(self.column_length):
-                f.write(",".join([str(x) for x in self.__content[i, :]]))
-                f.write("\n")
+                f.write(",".join([str(x) for x in self.__content[i, :]]) + '\n')

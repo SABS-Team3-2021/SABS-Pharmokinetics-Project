@@ -1,5 +1,5 @@
 import unittest
-from unittest.suite import TestSuite
+from unittest.mock import Mock, patch
 from parameterized import parameterized
 import pkmodel as pk
 import random
@@ -7,6 +7,7 @@ import os
 import pandas as pd
 import numpy as np
 import string
+import builtins
 
 def generateFnHelperNumpyArray(n: int):
     def inner():
@@ -45,9 +46,11 @@ class DataCollectorTests(unittest.TestCase):
         testSubject.begin(self.helperCols(nCols), nIters)
         self.mockReport(testSubject, generateFnHelper(nCols), nIters)
         filename = ''.join(random.choice(string.ascii_letters) for i in range(15))
-        testSubject.writeToFile(filename)
-        pd.read_csv(filename)
-        os.remove(filename)
+        with patch('builtins.open', unittest.mock.mock_open()) as mock_open:
+            testSubject.writeToFile(filename)
+        mock_open.assert_called_once_with(filename, 'w')
+        handle = mock_open()
+        self.assertEqual(handle.write.call_count, nIters + 1, msg='Incorrect number of write calls')
     
     @parameterized.expand([(s,t) for s, t in zip(subjects, generateFnHelpers)])
     def test_FailRetrieve(self, subject, generateFnHelper):
