@@ -1,5 +1,5 @@
 
-class blockpulse():
+class blockPulse():
 
     """ A block dosing function that can add multiple block pulses of a dose,
         each dose pulse has a beginning time, end time and dose ammount

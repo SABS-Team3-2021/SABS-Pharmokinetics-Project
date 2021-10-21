@@ -19,6 +19,7 @@ from .api import solve_iv_toFile, solve_subcut_toFile,\
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
 from .parameters.parameters_sub import Subcut_Parameters
+from .Block_pulse_dose import blockPulse
 
 # Import Models
 from .models.iv_model_scipy import IvModelScipy
@@ -29,9 +30,9 @@ from .models.sub_model_bckEuler import SubModelBckEuler
 # Import Data Collectors
 from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 
+# Import Dose Functions
+from .Block_pulse_dose import blockPulse
 
 # Import Plotters
-#from .plotters.plotFromCSV import PlotFromCSV
+from .plotters.plotFromCSV import PlotFromCSV
 
-# Import Dose Functions
-from .Block_pulse_dose import blockpulse
