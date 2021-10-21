@@ -13,6 +13,7 @@ from .abstractModel import AbstractModel    # noqa
 from .abstractParameters import AbstractParameters    # noqa
 from .abstractDataCollector import AbstractDataCollector     # noqa
 
+from .api import solve_iv_toFile, solve_subcut_toFile
 
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
@@ -26,3 +27,10 @@ from .models.sub_model_bckEuler import SubModelBckEuler
 
 # Import Data Collectors
 from .dataCollectors.dataCollector_numpy import NumpyDataCollector
+
+
+# Import Plotters
+#from .plotters.plotFromCSV import PlotFromCSV
+
+# Import Dose Functions
+from .Block_pulse_dose import blockpulse

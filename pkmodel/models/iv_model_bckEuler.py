@@ -61,6 +61,6 @@ class IVModelBckEuler(AbstractModel):
             dose = self.doseFn(t)
 
             M, b = self.eqMatrix(t)
-            next = np.matmul(np.linalg.inv(M), prev[1:, [0]] + b)
+            next = np.matmul(np.linalg.inv(M), prev[2:, [0]] + b)
 
             self.dataCollector.report(np.vstack((t, dose, next)))

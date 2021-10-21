@@ -51,7 +51,7 @@ class NumpyDataCollector(AbstractDataCollector):
             and time_point >= 0
             and time_point <= self.column_length
         )
-        return np.transpose(self.__content[time_point, :])
+        return np.transpose(self.__content[[time_point], :])
 
     def writeToFile(self, filename: str):
         """Opens a given filename and writes data in csv format.
