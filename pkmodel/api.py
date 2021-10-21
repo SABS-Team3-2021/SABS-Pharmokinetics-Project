@@ -28,7 +28,7 @@ def solve_iv_toFile(outfilename,
     soln.writeToFile(outfilename)
 
 def solve_subcut_toFile(outfilename,
-        Q_pc=1, V_c=1, V_p=1, CL=1, q_c0=0, q_p0=0, k_a=1, q_e0=0,
+        Q_pc=1, V_c=1, V_p=1, CL=1, k_a=1, q_e0=0, q_c0=0, q_p0=0,
         doseFn=lambda x: 0,
         tSpan=1, numIters=1000):
     '''Solve IV Model with given parameters and write solution at each iteration to outfile
