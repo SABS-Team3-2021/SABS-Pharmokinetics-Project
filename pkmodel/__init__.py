@@ -30,3 +30,6 @@ from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 
 # Import Plotters
 #from .plotters.plotFromCSV import PlotFromCSV
+
+# Import Dose Functions
+from .Block_pulse_dose import blockpulse
