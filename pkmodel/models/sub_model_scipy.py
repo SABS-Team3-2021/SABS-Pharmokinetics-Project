@@ -1,4 +1,9 @@
-# Model solving the subcutaneous dosing set of equations, using scipy.
+"""Module containing the pharmokinetics (PK) subcutaneous (sub) model class.
+
+It contains a class with a solve method, in which the equations
+of the model are defined and solved.
+"""
+
 import typing
 import numpy as np
 import scipy.integrate
@@ -9,7 +14,10 @@ from ..abstractDataCollector import AbstractDataCollector
 
 
 class SubModelScipy(AbstractModel):
-    """ A three compartment (subcutaneous) PK model
+    """Class in which the PK sub model is defined and solved.
+
+    It inherits from AbstractModel.
+    It contains the function solve and the subfunction pk_sub_model.
     """
 
     def __init__(self, parameters: AbstractParameters,
@@ -23,13 +31,16 @@ class SubModelScipy(AbstractModel):
         self.nsteps = nsteps
 
     def solve(self):
-        """ Solve IV problem and output to solution.
+        """Solves the three compartments PK sub model and outputs to solution.
 
         It gets the parameters using the parameter class method.
+        The solver used is scypi.
 
-        It writes line by line the solution of the ODEs using
-        the solution class method. List format: [time, q_e, q_c, q_p].
+        It writes line by line the solution of the ODEs using the solution
+        class method.
+        Solution format: [time, q_e, q_c, q_p].
         """
+        # Definition of the parameters
         Q_pc = self.parameters.getParam("Q_pc")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
@@ -41,19 +52,26 @@ class SubModelScipy(AbstractModel):
                               self.parameters.getParam("q_e0")]
         t_eval = np.linspace(0, self.timespan, self.nsteps)
 
-        def pk_iv_model(t, y, Q_pc, V_c, V_p, CL, k_a):
-            """ Returns derivatives for PK IV Model
+        # Definition of the model ODEs
+        def pk_sub_model(t, y, Q_pc, V_c, V_p, CL, k_a):
+            """Defines the differential equations for the PK sub model.
 
             Parameters:
-            Q_pc : transition rate between central and peripheral
-                   compartments (mL/h)
-            V_c : volume of central compartment (mL)
-            V_p : volume of peripheral compartment (mL)
-            CL : clearance/elimination rate from the central compartment (mL/h)
-            k_a : absorption rate for the s.c. dosing (/h)
+            :param t: time (h)
+            :param y: list of the state variables of the ODEs system, in the
+                      form [q_e, q_c, q_p]
+            :param Q_pc: transition rate between central and peripheral
+                         compartments (mL/h)
+            :param V_c: volume of central compartment (mL)
+            :param V_p: volume of peripheral compartment (mL)
+            :param CL: clearance/elimination rate from the central
+                       compartment (mL/h)
+            :param k_a: absorption rate in the subcutaneous model (/h)
 
-            Returns:
-            List containing differential equations, in the form:
+            The parameters (except for t and y) are extracted from the
+            Parameter class, using getParam method.
+
+            Returns list containing the differential equations, in the form:
             [dqe_dt, dqc_dt, dqp_dt]
             """
             q_e, q_c, q_p = y
@@ -63,12 +81,14 @@ class SubModelScipy(AbstractModel):
             dqp_dt = transfer
             return [dqe_dt, dqc_dt, dqp_dt]
 
+        # Solving the model
         sol = scipy.integrate.solve_ivp(
-            fun=lambda t, y: pk_iv_model(t, y, Q_pc, V_c, V_p, CL, k_a),
+            fun=lambda t, y: pk_sub_model(t, y, Q_pc, V_c, V_p, CL, k_a),
             t_span=[t_eval[0], t_eval[-1]],
             y0=initial_conditions, t_eval=t_eval
         )
 
+        # Feeding the solution line by line to solution class
         t = sol.t
         y = sol.y
         N = t.shape[0]
