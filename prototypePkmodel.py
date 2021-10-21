@@ -3,6 +3,7 @@ from pkmodel.plotters.plotFromCSV import PlotFromCSV
 import pandas as pd
 import matplotlib.pyplot as plt
 
+'''
 params = pk.IV_Parameters(
         Q_pc= 1.0,
         V_c= 1.0,
@@ -30,3 +31,8 @@ eulerData = pd.read_csv('iv_euler.csv')
 plt.plot(scipyData['t'], scipyData['q_p'])
 plt.plot(eulerData['t'], eulerData['q_p'])
 plt.show()
+#'''
+
+def doseFn(t: float) -> float: return 1
+
+pk.solve_iv_toFile(outfilename = 'data.csv', Q_pc=1, V_c=1, V_p=1, CL=1, q_c0=0, q_p0=0, doseFn=doseFn, numIters=1000, tSpan=1)

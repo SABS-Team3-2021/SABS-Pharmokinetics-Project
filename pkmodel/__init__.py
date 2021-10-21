@@ -13,6 +13,7 @@ from .abstractModel import AbstractModel    # noqa
 from .abstractParameters import AbstractParameters    # noqa
 from .abstractDataCollector import AbstractDataCollector     # noqa
 
+from .api import solve_iv_toFile, solve_subcut_toFile
 
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
