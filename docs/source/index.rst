@@ -18,3 +18,12 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. automodule:: abstractParameters
+   :members:
+
+.. automodule:: parameters_iv
+   :members:
+
+.. automodule:: parameters_sub
+   :members:
