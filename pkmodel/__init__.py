@@ -22,6 +22,7 @@ from .parameters.parameters_sub import Subcut_Parameters
 from .models.iv_model_scipy import IvModelScipy
 from .models.sub_model_scipy import SubModelScipy
 from .models.iv_model_bckEuler import IVModelBckEuler
+from .models.sub_model_bckEuler import SubModelBckEuler
 
 # Import Data Collectors
 from .dataCollectors.dataCollector_numpy import NumpyDataCollector

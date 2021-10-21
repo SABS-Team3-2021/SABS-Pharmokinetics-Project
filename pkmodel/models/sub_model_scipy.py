@@ -25,7 +25,7 @@ class SubModelScipy(AbstractModel):
                  dosefunction: typing.Callable[[float], float],
                  timespan: float, nsteps: int):
         self.parameters = parameters
-        self. solution = solution
+        self.solution = solution
         self.dosefunction = dosefunction
         self.timespan = timespan
         self.nsteps = nsteps
