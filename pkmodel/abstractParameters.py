@@ -14,10 +14,6 @@ class AbstractParameters(ABC):
         an example paramter
 
     """
-    
-    @abstractmethod
-    def setParam(self, key: str, val: float) -> None: pass
-
     @abstractmethod
     def getParam(self, key: str) -> float:
         """Retrieve Parameter

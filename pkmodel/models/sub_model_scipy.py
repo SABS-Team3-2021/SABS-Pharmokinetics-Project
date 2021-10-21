@@ -1,7 +1,10 @@
+
 # Model solving the subcutaneous dosing set of equations, using scipy.
+
 import typing
 import numpy as np
 import scipy.integrate
+
 
 from model import AbstractModel
 from parameters import AbstractParameters
@@ -10,6 +13,7 @@ from data_collector import AbstractDataCollector
 
 class SubModelScipy(AbstractModel):
     """ A three compartment (subcutaneous) PK model
+
     """
 
     def __init__(self, parameters: AbstractParameters,
@@ -23,6 +27,7 @@ class SubModelScipy(AbstractModel):
         self.nsteps = nsteps
 
     def solve(self):
+
         """ Solve IV problem and output to solution.
 
         It gets the parameters using the parameter class method.
@@ -30,6 +35,7 @@ class SubModelScipy(AbstractModel):
         It writes line by line the solution of the ODEs using
         the solution class method. List format: [time, q_e, q_c, q_p].
         """
+
         Q_pc = self.parameters.getParam("Q_pc")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
@@ -40,6 +46,7 @@ class SubModelScipy(AbstractModel):
                               self.parameters.getParam("q_p0"),
                               self.parameters.getParam("q_e0")]
         t_eval = np.linspace(0, self.timespan, self.nsteps)
+
 
         def pk_iv_model(t, y, Q_pc, V_c, V_p, CL, k_a):
             """ Returns derivatives for PK IV Model
@@ -54,6 +61,7 @@ class SubModelScipy(AbstractModel):
 
             Returns:
             List containing differential equations, in the form:
+
             [dqe_dt, dqc_dt, dqp_dt]
             """
             q_e, q_c, q_p = y
@@ -69,6 +77,7 @@ class SubModelScipy(AbstractModel):
             y0=initial_conditions, t_eval=t_eval
         )
 
+
         t = sol.t
         y = sol.y
         N = t.shape[0]
@@ -77,5 +86,7 @@ class SubModelScipy(AbstractModel):
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))
             arr[0] = t[i]
+
             arr[1:] = y[:, i]
+
             self.solution.report(arr)

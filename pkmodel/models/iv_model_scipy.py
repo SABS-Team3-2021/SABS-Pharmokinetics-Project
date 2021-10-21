@@ -1,4 +1,6 @@
+
 # Model solving the intravenous bolus set of equations, using scipy.
+
 import typing
 import numpy as np
 import scipy.integrate
@@ -10,6 +12,7 @@ from data_collector import AbstractDataCollector
 
 class IvModelScipy(AbstractModel):
     """ A two compartment (intravenous) PK model
+
     """
 
     def __init__(self, parameters: AbstractParameters,
@@ -23,6 +26,7 @@ class IvModelScipy(AbstractModel):
         self.nsteps = nsteps
 
     def solve(self):
+
         """ Solve IV problem and output to solution
 
         It gets the parameters using the parameter class method.
@@ -30,6 +34,7 @@ class IvModelScipy(AbstractModel):
         It writes line by line the solution of the ODEs using
         the solution class method. List format: [time, q_c, q_p].
         """
+
         Q_pc = self.parameters.getParam("Q_pc")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
@@ -50,6 +55,7 @@ class IvModelScipy(AbstractModel):
 
             Returns:
             List containing differential equations, in the form:
+
             [dqc_dt, dqp_dt]
             """
             q_c, q_p = y
@@ -58,11 +64,13 @@ class IvModelScipy(AbstractModel):
             dqp_dt = transfer
             return [dqc_dt, dqp_dt]
 
+
         sol = scipy.integrate.solve_ivp(
             fun=lambda t, y: pk_iv_model(t, y, Q_pc, V_c, V_p, CL),
             t_span=self.timespan,
             y0=initial_conditions, t_eval=t_eval
         )
+
 
         t = sol.t
         y = sol.y
@@ -72,5 +80,7 @@ class IvModelScipy(AbstractModel):
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))
             arr[0] = t[i]
+
             arr[1:] = y[:, i]
+
             self.solution.report(arr)
