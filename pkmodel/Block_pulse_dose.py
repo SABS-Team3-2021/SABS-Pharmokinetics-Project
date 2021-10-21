@@ -4,7 +4,7 @@ class blockpulse():
     """ A block dosing function that can add multiple block pulses of a dose,
         each dose pulse has a beginning time, end time and dose ammount
     """
-    def __innit__(self):
+    def __init__(self):
         self.pulses = {}
    
     def add_pulse(self, start_time, stop_time, dose) -> None:
