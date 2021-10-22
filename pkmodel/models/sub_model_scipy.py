@@ -45,7 +45,7 @@ class SubModelScipy(AbstractModel):
         """
 
         # Definition of the parameters
-        Q_pc = self.parameters.getParam("Q_pc")
+        Q_p = self.parameters.getParam("Q_p")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
         CL = self.parameters.getParam("CL")
@@ -59,14 +59,14 @@ class SubModelScipy(AbstractModel):
         t_eval = np.linspace(0, self.timespan, self.nsteps)
 
         # Definition of the model ODEs
-        def pk_sub_model(t, y, Q_pc, V_c, V_p, CL, k_a):
+        def pk_sub_model(t, y, Q_p, V_c, V_p, CL, k_a):
             """Defines the differential equations for the PK sub model.
 
             Parameters:
             :param t: time (h)
             :param y: list of the state variables of the ODEs system, in the
                       form [q_e, q_c, q_p]
-            :param Q_pc: transition rate between central and peripheral
+            :param Q_p: transition rate between central and peripheral
                          compartments (mL/h)
             :param V_c: volume of central compartment (mL)
             :param V_p: volume of peripheral compartment (mL)
@@ -81,7 +81,7 @@ class SubModelScipy(AbstractModel):
             [dqe_dt, dqc_dt, dqp_dt]
             """
             q_e, q_c, q_p = y
-            transfer = Q_pc * (q_c / V_c - q_p / V_p)
+            transfer = Q_p * (q_c / V_c - q_p / V_p)
             dqe_dt = self.dosefunction(t) - k_a * q_e
             dqc_dt = k_a * q_e - q_c / V_c * CL - transfer
             dqp_dt = transfer
@@ -89,7 +89,7 @@ class SubModelScipy(AbstractModel):
 
         # Solving the model
         sol = scipy.integrate.solve_ivp(
-            fun=lambda t, y: pk_sub_model(t, y, Q_pc, V_c, V_p, CL, k_a),
+            fun=lambda t, y: pk_sub_model(t, y, Q_p, V_c, V_p, CL, k_a),
             t_span=[t_eval[0], t_eval[-1]],
             y0=initial_conditions,
             t_eval=t_eval,

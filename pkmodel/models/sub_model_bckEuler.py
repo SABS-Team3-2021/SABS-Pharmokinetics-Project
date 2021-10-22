@@ -24,7 +24,7 @@ class SubModelBckEuler(AbstractModel):
         :param t: float, time
         :returns : np.ndarray matrix M, np.ndarray column vector b
         """
-        Q_pc = self.parameters.getParam("Q_pc")
+        Q_p = self.parameters.getParam("Q_p")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
         CL = self.parameters.getParam("CL")
@@ -33,10 +33,10 @@ class SubModelBckEuler(AbstractModel):
         M = np.zeros((3, 3))
         M[0, 0] = 1 + self.dt * k_a
         M[1, 0] = -self.dt * k_a
-        M[1, 1] = 1 + self.dt * CL / V_c + self.dt * Q_pc / V_c
-        M[1, 2] = self.dt * Q_pc / V_p
-        M[2, 1] = -self.dt * Q_pc / V_c
-        M[2, 2] = 1 + self.dt * Q_pc / V_p
+        M[1, 1] = 1 + self.dt * CL / V_c + self.dt * Q_p / V_c
+        M[1, 2] = self.dt * Q_p / V_p
+        M[2, 1] = -self.dt * Q_p / V_c
+        M[2, 2] = 1 + self.dt * Q_p / V_p
 
         b = np.zeros((3, 1))
         b[0, 0] = self.doseFn(t + self.dt) * self.dt

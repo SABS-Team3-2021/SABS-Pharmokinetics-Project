@@ -50,9 +50,9 @@ class NComptIvModelScipy(AbstractModel):
         # Definition of the parameters
         V_c = self.parameters.getParam("V_c")
         CL = self.parameters.getParam("CL")
-        initial_conditions = [0 for i in range(self.ncompartments+1)]
+        initial_conditions = [0 for i in range(self.ncompartments + 1)]
         initial_conditions[0] = self.parameters.getParam("q_c0")
-        for i in range(1, self.ncompartments+1):
+        for i in range(1, self.ncompartments + 1):
             initial_conditions[i] = self.parameters.getParam("q_p{}_0".format(i))
         t_eval = np.linspace(0, self.timespan, self.nsteps)
 
@@ -64,7 +64,7 @@ class NComptIvModelScipy(AbstractModel):
             :param t: time (h)
             :param y: list of the state variables of the ODEs system, in the
                       form [q_c, q_p]
-            :param Q_pc: transition rate between central and peripheral
+            :param Q_p: transition rate between central and peripheral
                          compartments (mL/h)
             :param V_c: volume of central compartment (mL)
             :param V_p: volume of peripheral compartment (mL)
@@ -77,12 +77,12 @@ class NComptIvModelScipy(AbstractModel):
             Returns list containing the differential equations, in the form:
             [dqc_dt, dqp_dt]
             """
-            result = [0 for i in range(1+self.ncompartments)]
-            result[0] = self.dosefunction(t) - q[0] * CL/V_c
-            for i in range(1, 1+self.ncompartments):
-                Q_pc = self.parameters.getParam('Q_p{}'.format(i))
-                V_p = self.parameters.getParam('V_p{}'.format(i))
-                result[i] = Q_pc * (q[0]/V_c - q[i]/V_p)
+            result = [0 for i in range(1 + self.ncompartments)]
+            result[0] = self.dosefunction(t) - q[0] * CL / V_c
+            for i in range(1, 1 + self.ncompartments):
+                Q_p = self.parameters.getParam("Q_p{}".format(i))
+                V_p = self.parameters.getParam("V_p{}".format(i))
+                result[i] = Q_p * (q[0] / V_c - q[i] / V_p)
                 result[0] -= result[i]
             return result
 
@@ -98,8 +98,9 @@ class NComptIvModelScipy(AbstractModel):
         t = sol.t
         y = sol.y
         N = t.shape[0]
-        columnNames = ["t", "dose", "q_c"] + \
-            ["q_p{}".format(i) for i in range(1, self.ncompartments+1)]
+        columnNames = ["t", "dose", "q_c"] + [
+            "q_p{}".format(i) for i in range(1, self.ncompartments + 1)
+        ]
         self.solution.begin(columnNames, N)
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))
