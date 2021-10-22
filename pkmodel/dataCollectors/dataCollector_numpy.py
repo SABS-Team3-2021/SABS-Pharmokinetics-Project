@@ -39,12 +39,12 @@ class NumpyDataCollector(AbstractDataCollector):
         self.__index += 1
 
     def __getitem__(self, time_point: int) -> np.ndarray:
-        """Return data as a column vector at a time point requested.
-        Asserts timepoint is within the 'past' of the model.
+        """Return data as a column vector at a time point requested. Asserts
+        timepoint is within the 'past' of the model.
 
-        :param time_point: time step requested
-        :return: numpy array containing the model solution data for the
-                 specified time point
+        :param time_point: specified time at which we want the data
+        :return: data as a column for the specified time step
+        :rtype: numpy array column
         """
         assert (
             time_point < self.__index

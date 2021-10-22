@@ -35,12 +35,8 @@ class AbstractDataCollector(ABC):
 
     @abstractmethod
     def __getitem__(self, i: int) -> np.ndarray:
-        """Return data as a column vector at a time point requested.
-        Asserts timepoint is within the 'past' of the model.
-
-        :param time_point: time step requested
-        :return: numpy array containing the model solution data for the
-                 specified time point
+        """Return data as a column vector at a time point requested. Asserts
+        timepoint is within the 'past' of the model.
         """
         pass
 
