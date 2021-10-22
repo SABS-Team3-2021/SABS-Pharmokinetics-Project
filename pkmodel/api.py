@@ -1,8 +1,7 @@
-from .parameters.parameters_iv import IV_Parameters
-from .dataCollectors.dataCollector_numpy import NumpyDataCollector
-from .models.iv_model_scipy import IvModelScipy
-from .parameters.parameters_sub import Subcut_Parameters
-from .models.sub_model_scipy import SubModelScipy
+from .model_factory import ModelFactory
+from .dataCollector_factory import DataCollectorFactory
+from .parameters_factory import ParametersFactory
+from .plotter_factory import PlotterFactory
 import numpy as np
 
 def solve_iv_toFile(outfilename,
@@ -21,9 +20,9 @@ def solve_iv_toFile(outfilename,
     q_c0 float: [ng] - the initial drug quantity in the central compartment
     q_p0: [ng] - the initial drug quantity in the central compartment
     '''
-    params = IV_Parameters(Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0)
-    soln = NumpyDataCollector()
-    model = IvModelScipy(params, soln, doseFn, tSpan, numIters)
+    params = ParametersFactory.getIVParameters()(Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0)
+    soln = DataCollectorFactory.getNumpyDataCollector()()
+    model = ModelFactory.getIvModelScipy()(params, soln, doseFn, tSpan, numIters)
     model.solve()
     soln.writeToFile(outfilename)
 
@@ -45,9 +44,9 @@ def solve_subcut_toFile(outfilename,
     k_a float: [/h] - the “absorption” rate from the entrance compartment for the subcutaneous dosing
     q_e0 float: [ng] - the initial drug quantity in the entrance compartment
     '''
-    params = Subcut_Parameters(Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0, k_a=k_a, q_e0=q_e0)
-    soln = NumpyDataCollector()
-    model = SubModelScipy(params, soln, doseFn, tSpan, numIters)
+    params = ParametersFactory.getSubcutParameters()(Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0, k_a=k_a, q_e0=q_e0)
+    soln = DataCollectorFactory.getNumpyDataCollector()()
+    model = ModelFactory.getSubModelScipy()(params, soln, doseFn, tSpan, numIters)
     model.solve()
     soln.writeToFile(outfilename)
 
