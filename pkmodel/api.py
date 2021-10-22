@@ -5,6 +5,7 @@ from .parameters_factory import ParametersFactory
 from .plotter_factory import PlotterFactory
 import numpy as np
 from .Block_pulse_dose import blockPulse
+import json
 
 
 def solve_iv_toFile(
@@ -114,6 +115,7 @@ def solve_subcut_toFile(
     params = ParametersFactory.getSubcutParameters()(
         Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0, k_a=k_a, q_e0=q_e0
     )
+    
     soln = DataCollectorFactory.getNumpyDataCollector()()
     model = ModelFactory.getSubModelScipy()(params, soln, doseFn, tSpan, numIters)
     model.solve()
@@ -161,3 +163,85 @@ def create_singlePulse_dosing(
     ret = blockPulse()
     ret.add_pulse(tStart, tStop, dose)
     return ret
+
+def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) -> typing.List[str]:
+    """ Solve a model defined by a ModelConfig dictionary.
+    # Solves a specified N-compartment model for a timespan and number of iterations with protocol(s) specified in config
+    # Returns list of output filenames which contain the data from the protocols
+    
+    Usage::
+
+    >>> import pkmodel as pk
+    >>> import json
+    >>> cfg = json.load(open('modelConfig.json', 'r'))
+    >>> pk.solve_model_from_config(cfg, lambda t: 1)
+        ['protocol1Output.csv', 'protocol2Output.csv']
+
+    : param: cfg dict: Model Configuration in a dictionary (i.e. read in from a json file)
+    : param: doseFn: Dosing function for models
+    : returns: List of output file strings.
+    : rtype: typing.List[str]
+    """
+    # Check model is specified in config
+    assert "model" in cfg, "Config is missing \"model\", to specify model type."
+    model = cfg["model"].lower().strip()
+    # Check specified model is recognised
+    assert model in ["iv", "subcut"], "Unrecognised model type."
+    paramClass = ParametersFactory.getNCompIVParameters() if model == "iv"\
+        else ParametersFactory.getNCompSubCutParameters()
+    modelClass = ModelFactory.getNCompIVModel() if model == "iv" \
+        else ModelFactory.getNCompSubCutModel()
+
+    # Check required configs are set
+    assert "tspan" in cfg, "Model config is missing 'tspan'"
+    assert "numIterations" in cfg, "Model config is missing 'numIterations'"
+    assert "numCompartments" in cfg, "Model config is missing 'numCompartments'"
+    tspan, numIterations = cfg["tspan"], cfg["numIterations"]
+    numCompartments = cfg["numCompartments"]
+    
+    # Check one of protocol or protocols is defined
+    if "protocol" in cfg:
+        cfg["protocols"] = [cfg["protocol"]]
+    else:
+        assert "protocols" in cfg, "ModelConfig must contain a 'protocol' or 'protocols' section."
+
+    outfiles = []
+    # Run the protocols
+    for protocol in cfg["protocols"]: # Might want to consider making this multithreaded
+        params = paramClass(numCompartments, **protocol)
+        collector = DataCollectorFactory.getNumpyDataCollector()()
+        model = modelClass(params, collector, doseFn, tspan, numIterations, numCompartments)
+        model.solve()
+        outfile = protocol["outfile"] if "outfile" in protocol \
+            else "tmp_{}".format(str(protocol))
+        collector.writeToFile(outfile)
+        outfiles.append(outfile)
+
+    return outfiles
+
+def process_config(configfile: str, doseFn: typing.Callable[[float], float]):
+    """ Run a process defined by a config file.
+    # The config file defines a model which is to be run, with customisable number of protocols.
+    # The Dose Function is supplied as a separate argument
+    #
+    # Config file must contain a "modelConfig" section, which defines the model.
+    # This section must contain tspan, numIterations, numCompartments and either of protocol or protocols.
+    #
+    # Config file can also contain a section to define how the solutions should be plotted.
+    # 
+
+    Usage::
+
+    >>> import pkmodel as pk
+    >>> pk.process_config('config.json', pk.create_singlePulse_dosing(0, 0.1, 1))
+
+    : param: configfile str: filename of config json file.
+    : param: doseFn typing.Callable[[float], float]: Dose function
+    """
+    cfg = json.load(open(configfile, 'r'))
+    assert "modelConfig" in cfg, "Config file is missing modelConfig section."
+    outfiles = solve_model_from_config(cfg["modelConfig"], doseFn)
+
+    if "plotConfig" in cfg:
+        pass
+
