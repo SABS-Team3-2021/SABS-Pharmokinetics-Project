@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 from parameterized import parameterized
-import pkmodel as pk
+import pk_model as pk
 import random
 import numpy as np
 import string

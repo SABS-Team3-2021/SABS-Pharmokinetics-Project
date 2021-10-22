@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, MagicMock, call
 import numpy as np
-import pkmodel as pk
+import pk_model as pk
 from parameterized.parameterized import param, parameterized
 import random
 

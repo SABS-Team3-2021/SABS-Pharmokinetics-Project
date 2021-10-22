@@ -1,5 +1,5 @@
 import unittest
-import pkmodel as pk
+import pk_model as pk
 import random
 
 class TestParameters(unittest.TestCase):

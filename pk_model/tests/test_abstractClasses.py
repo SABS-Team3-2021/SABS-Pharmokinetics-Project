@@ -1,5 +1,5 @@
 import unittest
-import pkmodel as pk
+import pk_model as pk
 
 class TestAbstractClasses(unittest.TestCase):
     def test_AbstractDataCollector(self):

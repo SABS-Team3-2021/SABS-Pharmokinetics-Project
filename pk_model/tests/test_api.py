@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, MagicMock, call, patch, ANY
-import pkmodel as pk
+import pk_model as pk
 import random
 import string
 from parameterized.parameterized import parameterized
@@ -21,11 +21,11 @@ class ApiTest(unittest.TestCase):
         doseFn=lambda x: 0
         tSpan, numIters= random.random()*1000, random.randint(100, 1000)
         
-        with patch('pkmodel.IV_Parameters.__init__', return_value=None) as mockMakeParams,\
-                patch('pkmodel.NumpyDataCollector.__init__', return_value=None) as mockMakeCollector,\
-                patch('pkmodel.IvModelScipy.__init__', return_value=None) as mockMakeModel,\
-                patch('pkmodel.IvModelScipy.solve') as mockSolve,\
-                patch('pkmodel.NumpyDataCollector.writeToFile') as mockWriteFile:
+        with patch('pk_model.IV_Parameters.__init__', return_value=None) as mockMakeParams,\
+                patch('pk_model.NumpyDataCollector.__init__', return_value=None) as mockMakeCollector,\
+                patch('pk_model.IvModelScipy.__init__', return_value=None) as mockMakeModel,\
+                patch('pk_model.IvModelScipy.solve') as mockSolve,\
+                patch('pk_model.NumpyDataCollector.writeToFile') as mockWriteFile:
             pk.solve_iv_toFile(outfilename=outfilename, Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0,
                 doseFn=doseFn, tSpan=tSpan, numIters=numIters)
         mockMakeParams.assert_called_once_with(Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0)
@@ -40,11 +40,11 @@ class ApiTest(unittest.TestCase):
         doseFn=lambda x: 0
         tSpan, numIters= random.random()*1000, random.randint(100, 1000)
         
-        with patch('pkmodel.Subcut_Parameters.__init__', return_value=None) as mockMakeParams,\
-                patch('pkmodel.NumpyDataCollector.__init__', return_value=None) as mockMakeCollector,\
-                patch('pkmodel.SubModelScipy.__init__', return_value=None) as mockMakeModel,\
-                patch('pkmodel.SubModelScipy.solve') as mockSolve,\
-                patch('pkmodel.NumpyDataCollector.writeToFile') as mockWriteFile:
+        with patch('pk_model.Subcut_Parameters.__init__', return_value=None) as mockMakeParams,\
+                patch('pk_model.NumpyDataCollector.__init__', return_value=None) as mockMakeCollector,\
+                patch('pk_model.SubModelScipy.__init__', return_value=None) as mockMakeModel,\
+                patch('pk_model.SubModelScipy.solve') as mockSolve,\
+                patch('pk_model.NumpyDataCollector.writeToFile') as mockWriteFile:
             pk.solve_subcut_toFile(outfilename=outfilename, Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, k_a=k_a, q_e0=q_e0, q_c0=q_c0, q_p0=q_p0,
                 doseFn=doseFn, tSpan=tSpan, numIters=numIters)
         mockMakeParams.assert_called_once_with(Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, k_a=k_a, q_e0=q_e0, q_c0=q_c0, q_p0=q_p0)
@@ -89,7 +89,7 @@ class ApiTest(unittest.TestCase):
     def test_processConfig(self, cfg, doseFn, outfiles):
         with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
             patch('json.load', return_value = cfg) as cfgPatch, \
-            patch('pkmodel.api.solve_model_from_config', return_value = outfiles), \
+            patch('pk_model.api.solve_model_from_config', return_value = outfiles), \
             patch('matplotlib.pyplot'):
             pk.process_config("config", doseFn)
     
@@ -97,7 +97,7 @@ class ApiTest(unittest.TestCase):
     def test_processConfigWithPlot(self, cfg, doseFn, outfiles):
         with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
             patch('json.load', return_value = cfg) as cfgPatch, \
-            patch('pkmodel.PlotFromCSV.plot'),\
+            patch('pk_model.PlotFromCSV.plot'),\
             patch('pandas.read_csv', return_value = pd.DataFrame(data={'t':[1,2],'d':[2,3],'a':[3,4]})):
             pk.process_config("config", doseFn)
 
@@ -105,6 +105,6 @@ class ApiTest(unittest.TestCase):
     def test_processConfigFails(self, cfg, doseFn, outfiles):
         with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
                 patch('json.load', return_value = cfg) as cfgPatch, \
-                patch('pkmodel.api.solve_model_from_config', return_value = outfiles):
+                patch('pk_model.api.solve_model_from_config', return_value = outfiles):
             self.assertRaises(AssertionError,pk.process_config,"config", doseFn)
 

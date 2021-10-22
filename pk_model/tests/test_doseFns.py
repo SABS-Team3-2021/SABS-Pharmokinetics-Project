@@ -1,6 +1,6 @@
 import unittest
 from parameterized import parameterized
-import pkmodel as pk
+import pk_model as pk
 import random
 
 numReps = 1000
