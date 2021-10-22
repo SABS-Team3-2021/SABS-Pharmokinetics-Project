@@ -1,6 +1,6 @@
 # from pandas.io.parsers import read_csv
 # from matplotlib.lines import _LineStyle  # not sure if any of these needed
-# import numpy as np
+import numpy as np
 from ..abstractPlotter import AbstractPlotter
 from matplotlib import pyplot as plt
 import pandas as pd
@@ -39,9 +39,10 @@ class PlotFromCSV(AbstractPlotter):
         dose = full_data[:, 1]
         data = full_data[:, 2:]
         fig, axes1 = plt.subplots()
-        color = ['k', 'b', 'g']
+        colours = plt.cm.viridis(np.linspace(0, .67, var_number))
         for i in range(var_number - 2):
-            axes1.plot(time, data[:, i], color=color[i], label=var_names[i + 2])
+            axes1.plot(time, data[:, i], color=colours[i], 
+                       label=var_names[i + 2])
         axes1.plot([], [], color='r', linestyle='dashed', label='Dose')
         # recall the first two entries of var_names are time and dose,
         # so need shifted index
