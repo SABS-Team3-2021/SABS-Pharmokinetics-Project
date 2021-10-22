@@ -12,7 +12,7 @@ class ApiTest(unittest.TestCase):
     @parameterized.expand([() for i in range(numReps)])
     def test_solve_iv_toFile(self):
         outfilename = ''.join(random.choice(string.ascii_letters) for j in range(15))
-        Q_pc, V_c, V_p, CL, q_c0, q_p0 = random.random(),random.random(),random.random(),random.random(),random.random(),random.random()
+        Q_p, V_c, V_p, CL, q_c0, q_p0 = random.random(),random.random(),random.random(),random.random(),random.random(),random.random()
         doseFn=lambda x: 0
         tSpan, numIters= random.random()*1000, random.randint(100, 1000)
         
@@ -21,9 +21,9 @@ class ApiTest(unittest.TestCase):
                 patch('pkmodel.IvModelScipy.__init__', return_value=None) as mockMakeModel,\
                 patch('pkmodel.IvModelScipy.solve') as mockSolve,\
                 patch('pkmodel.NumpyDataCollector.writeToFile') as mockWriteFile:
-            pk.solve_iv_toFile(outfilename=outfilename, Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0,
+            pk.solve_iv_toFile(outfilename=outfilename, Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0,
                 doseFn=doseFn, tSpan=tSpan, numIters=numIters)
-        mockMakeParams.assert_called_once_with(Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0)
+        mockMakeParams.assert_called_once_with(Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0)
         mockMakeCollector.assert_called_once_with()
         mockMakeModel.assert_called_once_with(ANY, ANY, doseFn, tSpan, numIters)
         mockSolve.assert_called_once_with()
@@ -32,7 +32,7 @@ class ApiTest(unittest.TestCase):
     @parameterized.expand([() for i in range(numReps)])
     def test_solve_subcut_toFile(self):
         outfilename = ''.join(random.choice(string.ascii_letters) for j in range(15))
-        Q_pc, V_c, V_p, CL, k_a, q_e0, q_c0, q_p0 = random.random(), random.random(), random.random(),random.random(),random.random(),random.random(),random.random(),random.random()
+        Q_p, V_c, V_p, CL, k_a, q_e0, q_c0, q_p0 = random.random(), random.random(), random.random(),random.random(),random.random(),random.random(),random.random(),random.random()
         doseFn=lambda x: 0
         tSpan, numIters= random.random()*1000, random.randint(100, 1000)
         
@@ -41,9 +41,9 @@ class ApiTest(unittest.TestCase):
                 patch('pkmodel.SubModelScipy.__init__', return_value=None) as mockMakeModel,\
                 patch('pkmodel.SubModelScipy.solve') as mockSolve,\
                 patch('pkmodel.NumpyDataCollector.writeToFile') as mockWriteFile:
-            pk.solve_subcut_toFile(outfilename=outfilename, Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, k_a=k_a, q_e0=q_e0, q_c0=q_c0, q_p0=q_p0,
+            pk.solve_subcut_toFile(outfilename=outfilename, Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, k_a=k_a, q_e0=q_e0, q_c0=q_c0, q_p0=q_p0,
                 doseFn=doseFn, tSpan=tSpan, numIters=numIters)
-        mockMakeParams.assert_called_once_with(Q_pc=Q_pc, V_c=V_c, V_p=V_p, CL=CL, k_a=k_a, q_e0=q_e0, q_c0=q_c0, q_p0=q_p0)
+        mockMakeParams.assert_called_once_with(Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, k_a=k_a, q_e0=q_e0, q_c0=q_c0, q_p0=q_p0)
         mockMakeCollector.assert_called_once_with()
         mockMakeModel.assert_called_once_with(ANY, ANY, doseFn, tSpan, numIters)
         mockSolve.assert_called_once_with()

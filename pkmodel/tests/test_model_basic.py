@@ -21,7 +21,7 @@ class ModelBasicTest(unittest.TestCase):
         collector = self.mockDataCollector(4)
         testSubject = subject(params, collector, lambda x: 1, endTime, numIters)
         testSubject.solve()
-        for c in [call('Q_pc'), call('V_c'), call('V_p'), call('CL'), call('q_c0'), call('q_p0')]:
+        for c in [call('Q_p'), call('V_c'), call('V_p'), call('CL'), call('q_c0'), call('q_p0')]:
             self.assertIn(c, params.getParam.call_args_list)
         self.assertEqual(collector.report.call_count, numIters, 'Wrong number of points reported')
 
@@ -31,7 +31,7 @@ class ModelBasicTest(unittest.TestCase):
         collector = self.mockDataCollector(5)
         testSubject = subject(params, collector, lambda x: 1, endTime, numIters)
         testSubject.solve()
-        for c in [call('Q_pc'), call('V_c'), call('V_p'), call('CL'), call('k_a'), call('q_e0'), call('q_c0'), call('q_p0')]:
+        for c in [call('Q_p'), call('V_c'), call('V_p'), call('CL'), call('k_a'), call('q_e0'), call('q_c0'), call('q_p0')]:
             self.assertIn(c, params.getParam.call_args_list)
         self.assertEqual(collector.report.call_count, numIters, 'Wrong number of points reported')
     
