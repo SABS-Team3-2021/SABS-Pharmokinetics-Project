@@ -16,7 +16,7 @@ class PlotFromCSV(AbstractPlotter):
     def __init__(self, filename: str):
         '''
         Class is initialised by a .csv containing
-        the datapoints, and also requires the list
+        the datapoints, with headers giving the list
         of variable names that have been solved for
         in the methods section. This variable name
         list should lead with the time variable

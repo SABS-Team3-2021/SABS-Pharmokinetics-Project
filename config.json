@@ -1,13 +1,24 @@
 {
     "modelConfig": {
         "model": "NDimIV",
-        "protocols": [{"Q_pc": 0, "outfile": "run1"}, {"Q_pc": 1, "outfile": "run2"}],
+        "protocols": [{"Q_pc": 0, "V_c" : 1.0,
+            "V_p": 1.0, "CL": 1.0, "q_c0" :0.0, "q_p0":0.0,
+            "outfile": "config_run/run1"}, 
+            {"Q_pc" : 1.0, "V_c" : 1.0,
+                "V_p": 1.0, "CL": 1.0, "q_c0" :0.0, "q_p0":0.0,
+                "outfile": "config_run/run2"}],
         "numIterations": 100,
+        "numCompartments": 10,
         "tspan": 10
     },
 
     "plotConfig": {
-        "plotData": ["q_p1"]
+        "plotVars": ["q_p1"],
+        "DoseLine": true,
+        "DoseLineColour": ["r"],
+        "ParameterLineColours": ["k", "b", "g"],
+        "ParameterLabels": [],
+        "ImageFileFormat": "png"
     }
 
 }

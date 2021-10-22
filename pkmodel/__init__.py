@@ -36,4 +36,5 @@ from .Block_pulse_dose import blockPulse
 
 # Import Plotters
 from .plotters.plotFromCSV import PlotFromCSV
+from .plotters.plotFromCSV import PlotFromConfig
 
