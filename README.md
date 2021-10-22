@@ -1,6 +1,7 @@
 # SABS-Pharmokinetics-Project
 
-[![codecov](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project/branch/master/graph/badge.svg?token=TBF4J7A9I3)](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project)
+[![Unit tests](https://github.com/SABS-best-team/SABS-Pharmokinetics-Project/actions/workflows/ci-unittests.yml/badge.svg)](https://github.com/SABS-best-team/SABS-Pharmokinetics-Project/actions/workflows/ci-unittests.yml)
+[![Coverage](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project/branch/master/graph/badge.svg?token=TBF4J7A9I3)](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project)
 
 `SABS-Pharmokinetics-Project` provides a user-friendly interface for anyone to explore the behaviour of a basic pharmokinetics model.
 
