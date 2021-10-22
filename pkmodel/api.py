@@ -275,5 +275,8 @@ def process_config(configfile: str, doseFn: typing.Callable[[float], float]):
     outfiles = solve_model_from_config(cfg["modelConfig"], doseFn)
 
     if "plotConfig" in cfg:
-        pass
+        if len(outfiles) == 1:
+            plot_single_file(outfiles[0])
+        elif len(outfiles) > 1:
+            plot_varying_parameter(cfg["plotConfig"], outfiles)
 
