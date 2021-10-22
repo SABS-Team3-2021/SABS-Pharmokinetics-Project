@@ -5,14 +5,21 @@ Variables in the IV (Intravenous Bolus) Model:
     V_c: [mL] - the volume of the central compartment
     V_p: [mL] - the volume of the peripheral compartment
 
-    Q_pc: [mL/h] - the transition rate between central compartment and peripheral compartment
+    Q_p: [mL/h] - the transition rate between central compartment and peripheral compartment
     CL: [mL/h] - the clearance/elimination rate from the central compartment
 
     q_c0: [ng] - the initial drug quantity in the central compartment
-    q_p0: [ng] - the initial drug quantity in the central compartment
+    q_p0: [ng] - the initial drug quantity in the periphery compartment
 
 
 Additional Variables in the Sub (Subcutaneous) Model:
 
     k_a: [/h] - the “absorption” rate from the entrance compartment for the subcutaneous dosing.
     q_e0: [ng] - the initial drug quantity in the entrance compartment
+
+Additional Variables for N Compartment Models (either IV or Sub)
+    These are all for the i-th compartment, replace i with the compartment number (e.g. 'V_p2')
+
+    V_pi: [mL] - the volume of the i-th peripheral compartment
+    Q_pi: [mL/h] - the transition rate between central compartment and the i-th peripheral compartment
+    q_pi_0: [ng] - the initial drug quantity in the i-th periphery compartment 

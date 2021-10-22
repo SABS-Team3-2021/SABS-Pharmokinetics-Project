@@ -44,9 +44,9 @@ class IvModelScipy(AbstractModel):
         class method.
         Solution format: [time, dose, q_c, q_p].
         """
-        
+
         # Definition of the parameters
-        Q_pc = self.parameters.getParam("Q_pc")
+        Q_p = self.parameters.getParam("Q_p")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
         CL = self.parameters.getParam("CL")
@@ -57,14 +57,14 @@ class IvModelScipy(AbstractModel):
         t_eval = np.linspace(0, self.timespan, self.nsteps)
 
         # Definition of the model ODEs
-        def pk_iv_model(t, y, Q_pc, V_c, V_p, CL):
+        def pk_iv_model(t, y, Q_p, V_c, V_p, CL):
             """Defines the differential equations for the PK IV model.
 
             Parameters:
             :param t: time (h)
             :param y: list of the state variables of the ODEs system, in the
                       form [q_c, q_p]
-            :param Q_pc: transition rate between central and peripheral
+            :param Q_p: transition rate between central and peripheral
                          compartments (mL/h)
             :param V_c: volume of central compartment (mL)
             :param V_p: volume of peripheral compartment (mL)
@@ -78,14 +78,14 @@ class IvModelScipy(AbstractModel):
             [dqc_dt, dqp_dt]
             """
             q_c, q_p = y
-            transfer = Q_pc * (q_c / V_c - q_p / V_p)
+            transfer = Q_p * (q_c / V_c - q_p / V_p)
             dqc_dt = self.dosefunction(t) - q_c / V_c * CL - transfer
             dqp_dt = transfer
             return [dqc_dt, dqp_dt]
 
         # Solving the model
         sol = scipy.integrate.solve_ivp(
-            fun=lambda t, y: pk_iv_model(t, y, Q_pc, V_c, V_p, CL),
+            fun=lambda t, y: pk_iv_model(t, y, Q_p, V_c, V_p, CL),
             t_span=[t_eval[0], t_eval[-1]],
             y0=initial_conditions,
             t_eval=t_eval,

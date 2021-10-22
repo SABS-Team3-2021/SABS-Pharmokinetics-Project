@@ -13,7 +13,7 @@ from ..abstractParameters import AbstractParameters
 from ..abstractDataCollector import AbstractDataCollector
 
 
-class SubModelScipy(AbstractModel):
+class NComptSubModelScipy(AbstractModel):
     """Class in which the PK sub model is defined and solved.
 
     It inherits from AbstractModel.
@@ -27,12 +27,14 @@ class SubModelScipy(AbstractModel):
         dosefunction: typing.Callable[[float], float],
         timespan: float,
         nsteps: int,
+        ncompartments: int,
     ):
         self.parameters = parameters
         self.solution = solution
         self.dosefunction = dosefunction
         self.timespan = timespan
         self.nsteps = nsteps
+        self.ncompartments = ncompartments
 
     def solve(self):
         """Solves the three compartments PK sub model and outputs to solution.
@@ -45,21 +47,20 @@ class SubModelScipy(AbstractModel):
         """
 
         # Definition of the parameters
-        Q_p = self.parameters.getParam("Q_p")
         V_c = self.parameters.getParam("V_c")
-        V_p = self.parameters.getParam("V_p")
         CL = self.parameters.getParam("CL")
         k_a = self.parameters.getParam("k_a")
 
-        initial_conditions = [
-            self.parameters.getParam("q_c0"),
-            self.parameters.getParam("q_p0"),
-            self.parameters.getParam("q_e0"),
-        ]
+        initial_conditions = [0 for i in range(self.ncompartments + 2)]
+        initial_conditions[0] = self.parameters.getParam("q_e0")
+        initial_conditions[1] = self.parameters.getParam("q_c0")
+        for i in range(1, self.ncompartments + 1):
+            initial_conditions[i + 1] = self.parameters.getParam("q_p{}_0".format(i))
+
         t_eval = np.linspace(0, self.timespan, self.nsteps)
 
         # Definition of the model ODEs
-        def pk_sub_model(t, y, Q_p, V_c, V_p, CL, k_a):
+        def pk_sub_model(t, q):
             """Defines the differential equations for the PK sub model.
 
             Parameters:
@@ -80,16 +81,19 @@ class SubModelScipy(AbstractModel):
             Returns list containing the differential equations, in the form:
             [dqe_dt, dqc_dt, dqp_dt]
             """
-            q_e, q_c, q_p = y
-            transfer = Q_p * (q_c / V_c - q_p / V_p)
-            dqe_dt = self.dosefunction(t) - k_a * q_e
-            dqc_dt = k_a * q_e - q_c / V_c * CL - transfer
-            dqp_dt = transfer
-            return [dqe_dt, dqc_dt, dqp_dt]
+            result = [0 for i in range(2 + self.ncompartments)]
+            result[0] = self.dosefunction(t) - q[0] * k_a
+            result[1] = q[0] * k_a - q[1] * CL / V_c
+            for i in range(1, 1 + self.ncompartments):
+                Q_p = self.parameters.getParam("Q_p{}".format(i))
+                V_p = self.parameters.getParam("V_p{}".format(i))
+                result[i + 1] = Q_p * (q[1] / V_c - q[i + 1] / V_p)
+                result[1] -= result[i + 1]
+            return result
 
         # Solving the model
         sol = scipy.integrate.solve_ivp(
-            fun=lambda t, y: pk_sub_model(t, y, Q_p, V_c, V_p, CL, k_a),
+            fun=pk_sub_model,
             t_span=[t_eval[0], t_eval[-1]],
             y0=initial_conditions,
             t_eval=t_eval,
@@ -99,7 +103,9 @@ class SubModelScipy(AbstractModel):
         t = sol.t
         y = sol.y
         N = t.shape[0]
-        columnNames = ["t", "dose", "q_e", "q_c", "q_p"]
+        columnNames = ["t", "dose", "q_e", "q_c"] + [
+            "q_p{}".format(i) for i in range(1, self.ncompartments + 1)
+        ]
         self.solution.begin(columnNames, N)
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))

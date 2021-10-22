@@ -24,16 +24,16 @@ class IVModelBckEuler(AbstractModel):
         :param t: float, time
         :returns : np.ndarray matrix M, np.ndarray column vector b
         """
-        Q_pc = self.parameters.getParam("Q_pc")
+        Q_p = self.parameters.getParam("Q_p")
         V_c = self.parameters.getParam("V_c")
         V_p = self.parameters.getParam("V_p")
         CL = self.parameters.getParam("CL")
 
         M = np.zeros((2, 2))
-        M[0, 0] = 1 + self.dt * CL / V_c + self.dt * Q_pc / V_c
-        M[0, 1] = self.dt * Q_pc / V_p
-        M[1, 0] = -self.dt * Q_pc / V_c
-        M[1, 1] = 1 + self.dt * Q_pc / V_p
+        M[0, 0] = 1 + self.dt * CL / V_c + self.dt * Q_p / V_c
+        M[0, 1] = self.dt * Q_p / V_p
+        M[1, 0] = -self.dt * Q_p / V_c
+        M[1, 1] = 1 + self.dt * Q_p / V_p
 
         b = np.zeros((2, 1))
         b[0, 0] = self.doseFn(t + self.dt) * self.dt
@@ -61,6 +61,6 @@ class IVModelBckEuler(AbstractModel):
             dose = self.doseFn(t)
 
             M, b = self.eqMatrix(t)
-            next = np.matmul(np.linalg.inv(M), prev[1:, [0]] + b)
+            next = np.matmul(np.linalg.inv(M), prev[2:, [0]] + b)
 
             self.dataCollector.report(np.vstack((t, dose, next)))

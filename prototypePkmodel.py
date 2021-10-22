@@ -1,18 +1,16 @@
 import pkmodel as pk
+from pkmodel.plotters.plotFromCSV import PlotFromCSV
+import pandas as pd
+import matplotlib.pyplot as plt
 
-params = pk.IV_Parameters(
-        Q_pc= 1.0,
-        V_c= 1.0,
-        V_p= 1.0,
-        CL= 1.0,
-        q_c0= 0.0,
-        q_p0= 0.0,
-)
-soln = pk.NumpyDataCollector()
+numCompartments = 2
 
-def doseFn(x: float) -> float: return x*x
+params = pk.SubCutNCompParameters(numCompartments,
+    CL=1, V_c=1, V_p1=1, V_p2=1, Q_p1=1, Q_p2=1, q_c0=1, q_p1_0=0, q_p2_0=0.5, k_a=1, q_e0=1)
+collector = pk.NumpyDataCollector()
 
-model = pk.IvModelScipy(params, soln, doseFn, 10, 1000)
+model = pk.NComptSubModelScipy(params, collector, 
+    pk.create_singlePulse_dosing(0, 0.1, 2), 100, 1000, numCompartments)
 model.solve()
 
-soln.writeToFile('Test.csv')
+collector.writeToFile('test.csv')
