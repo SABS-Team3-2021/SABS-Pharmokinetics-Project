@@ -4,6 +4,6 @@ omit =
     */site-packages/*
     */distutils/*
     tests/*
-    */dist-packages/*
 include =
-   /pkmodel/*
+   */pkmodel/*
+   pkmodel/*
