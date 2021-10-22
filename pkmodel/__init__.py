@@ -15,8 +15,9 @@ from .abstractParameters import AbstractParameters    # noqa
 from .abstractDataCollector import AbstractDataCollector     # noqa
 from .abstractPlotter import AbstractPlotter
 
-from .api import solve_iv_toFile, solve_subcut_toFile,\
-    create_expDecay_dosing, create_periodic_dosing, create_singlePulse_dosing
+from .api import solve_iv_toFile, solve_model_from_config, solve_subcut_toFile,\
+    create_expDecay_dosing, create_periodic_dosing, create_singlePulse_dosing,\
+    solve_model_from_config, process_config
 
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
