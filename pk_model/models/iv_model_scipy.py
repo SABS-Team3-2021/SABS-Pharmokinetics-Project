@@ -95,7 +95,7 @@ class IvModelScipy(AbstractModel):
         t = sol.t
         y = sol.y
         N = t.shape[0]
-        columnNames = ["t", "dose", "q_c", "q_p"]
+        columnNames = ["t", "dose", "q_c0", "q_p"]
         self.solution.begin(columnNames, N)
         for i in range(N):
             arr = np.zeros((len(columnNames), 1))

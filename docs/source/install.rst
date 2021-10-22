@@ -1,7 +1,7 @@
 Installation
 ============================================================
 
+In a command line in the bash shell, type: 
+pip3 install pk-model 
 
-If you have pip installed, enter the following in ....
-
-(command line)
+It will install everything that is necessary to run and to use the program.

@@ -147,6 +147,21 @@ def create_expDecay_dosing(A: float, k: float):
 
     return inner
 
+def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typing.Callable[[float], float]:
+    """Create a single pulse dosing profile
+    # ------------------------------------------------------------
+    # Create a dosing profile which gives a
+    # Remains high for timeHigh and low for lowHigh each period
+    # ------------------------------------------------------------
+    : param: tStart float: Time dosing starts
+    : param: tStop float: Time dosing stops
+    : param: dose: dose level
+    : returns: Dosing Profile
+    : rtype: Callable[[float], float]
+    """
+    ret = blockPulse()
+    ret.add_pulse(tStart, tStop, dose)
+    return ret
 
 def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
     """Create a Periodic dosing profile
@@ -194,7 +209,7 @@ def plot_varying_parameter(config_dir: dir, filenames: list):
 
     figure = PlotFromConfig(config_dir, filenames)
     figure.plot()
-    
+
 def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typing.Callable[[float], float]:
     """Create a single pulse dosing function.
 
@@ -205,6 +220,7 @@ def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typin
     ret = blockPulse()
     ret.add_pulse(tStart, tStop, dose)
     return ret
+
 
 def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) -> typing.List[str]:
     """ Solve a model defined by a ModelConfig dictionary.
