@@ -83,8 +83,6 @@ This is expressed within the 'sub' model for a subcutaneous dosing control (for 
 
 <img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">
 
-
-
 where the variables are defined as:
 
  * `V_c`: _[mL]_ - the volume of the central compartment
@@ -97,6 +95,10 @@ where the variables are defined as:
  * `q_c0`: _[ng]_ - the initial drug quantity in the central compartment
  * `q_p0`: _[ng]_ - the initial drug quantity in the periphery compartment
  * `q_e0`: _[ng]_ - the initial drug quantity in the entrance compartment
+
+ These equations can be expressed in the following compartent model:
+
+![Sub Model Structure](images/SubCut_model.png)
 
  ### Intravenous Bolus (IV) Model
  An alternative dosing protocol we represent here is the Intravenous Bolus (IV), where direct injection allows much faster drug delivery. This negates the role of the entrance component, and so the dose is delivered directly to the central compartment. This may be represented by the simpler set of equations, where all terms are defined as above,
