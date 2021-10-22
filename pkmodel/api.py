@@ -168,7 +168,6 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) 
     
     # Check one of protocol or protocols is defined
     if "protocol" in cfg:
-        assert "protocols" not in cfg, "ModelConfig cannot contain both 'protocol' and 'protocols'"
         cfg["protocols"] = [cfg["protocol"]]
     else:
         assert "protocols" in cfg, "ModelConfig must contain a 'protocol' or 'protocols' section."

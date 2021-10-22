@@ -5,8 +5,11 @@ import random
 import string
 from parameterized.parameterized import parameterized
 import numpy as np
+import json
+from .config import *
 
 numReps = 25
+doseFns = [lambda t: 0, lambda t: 1, lambda t: t, lambda t: t*t]
 
 class ApiTest(unittest.TestCase):
     @parameterized.expand([() for i in range(numReps)])
@@ -29,7 +32,6 @@ class ApiTest(unittest.TestCase):
         mockSolve.assert_called_once_with()
         mockWriteFile.assert_called_once_with(outfilename)
 
-    @parameterized.expand([() for i in range(numReps)])
     def test_solve_subcut_toFile(self):
         outfilename = ''.join(random.choice(string.ascii_letters) for j in range(15))
         Q_pc, V_c, V_p, CL, k_a, q_e0, q_c0, q_p0 = random.random(), random.random(), random.random(),random.random(),random.random(),random.random(),random.random(),random.random()
@@ -63,3 +65,35 @@ class ApiTest(unittest.TestCase):
         testFn = pk.create_periodic_dosing(tHigh, tLow, highVal, lowVal)
         t = random.random()*100
         self.assertEqual(testFn(t), highVal if t%(tHigh+tLow) <= tHigh else lowVal)
+
+    def test_create_singlePulse_dosing(self):
+        tStart, tStop = random.random()*2, random.random()+3
+        val = random.random()
+        testFn = pk.create_singlePulse_dosing(tStart, tStop, val)
+        t = random.random()*5
+        self.assertEqual(testFn(t), val if t >= tStart and t < tStop else 0)
+
+    @parameterized.expand([(c,d) for c in modelConfigsSuccess for d in doseFns])
+    def test_solveModelFromConfig(self, cfg, doseFn):
+        with patch('builtins.open', unittest.mock.mock_open()) as mock_open:
+            pk.solve_model_from_config(cfg, doseFn)
+
+    @parameterized.expand([(c, d) for c in modelConfigsFail for d in doseFns])
+    def test_solveModelFromConfigFail(self, cfg, doseFn):
+        with patch('builtins.open', unittest.mock.mock_open()) as mock_open:
+            self.assertRaises(AssertionError, pk.solve_model_from_config, cfg, doseFn)
+
+    @parameterized.expand([({"modelConfig": {}},d, []) for d in doseFns])
+    def test_processConfig(self, cfg, doseFn, outfiles):
+        with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
+            patch('json.load', return_value = cfg) as cfgPatch, \
+            patch('pkmodel.api.solve_model_from_config', return_value = outfiles):
+            pk.process_config("config", doseFn)
+
+    @parameterized.expand([({"aaa": {}},d, []) for d in doseFns])
+    def test_processConfigFails(self, cfg, doseFn, outfiles):
+        with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
+                patch('json.load', return_value = cfg) as cfgPatch, \
+                patch('pkmodel.api.solve_model_from_config', return_value = outfiles):
+            self.assertRaises(AssertionError,pk.process_config,"config", doseFn)
+
