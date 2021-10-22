@@ -1,8 +1,10 @@
+import typing
 from .model_factory import ModelFactory
 from .dataCollector_factory import DataCollectorFactory
 from .parameters_factory import ParametersFactory
 from .plotter_factory import PlotterFactory
 import numpy as np
+from .Block_pulse_dose import blockPulse
 
 def solve_iv_toFile(outfilename,
         Q_pc=1, V_c=1, V_p=1, CL=1, q_c0=0, q_p0=0,
@@ -122,3 +124,8 @@ def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
         phase = t%(timeHigh+timeLow)
         return highVal if phase <= timeHigh else lowVal
     return inner
+
+def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typing.Callable[[float], float]:
+    ret = blockPulse()
+    ret.add_pulse(tStart, tStop, dose)
+    return ret

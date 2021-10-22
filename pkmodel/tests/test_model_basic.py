@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock, MagicMock, call
 import numpy as np
 import pkmodel as pk
-from parameterized.parameterized import parameterized
+from parameterized.parameterized import param, parameterized
 import random
 
 numReps = 10
@@ -34,7 +34,42 @@ class ModelBasicTest(unittest.TestCase):
         for c in [call('Q_pc'), call('V_c'), call('V_p'), call('CL'), call('k_a'), call('q_e0'), call('q_c0'), call('q_p0')]:
             self.assertIn(c, params.getParam.call_args_list)
         self.assertEqual(collector.report.call_count, numIters, 'Wrong number of points reported')
-        
+    
+    @parameterized.expand([(n, t, i) for n, t, i in zip(
+        [random.randint(1, 5) for j in range(numReps)],
+        [random.random()*10 for j in range(numReps)],
+        [random.randint(10, 100) for j in range(numReps)]
+    )])
+    def test_solveModelNIV(self, nCompartments: int, endTime: float, numIters: int):
+        params = self.mockParameters()
+        collector = self.mockDataCollector(3+nCompartments)
+        testSubject = pk.NComptIvModelScipy(params, collector, lambda x: 1, endTime, numIters, nCompartments)
+        testSubject.solve()
+        for c in [call('V_c'), call('CL'), call('q_c0')] + \
+                [call('V_p{}'.format(i)) for i in range(1, nCompartments + 1)] + \
+                [call('Q_p{}'.format(i)) for i in range(1, nCompartments+1)] + \
+                [call('q_p{}_0'.format(i)) for i in range(1, nCompartments + 1)]:
+            self.assertIn(c, params.getParam.call_args_list)
+        self.assertEqual(collector.report.call_count, numIters, 'Wrong number of points reported')
+
+    @parameterized.expand([(n, t, i) for n, t, i in zip(
+        [random.randint(1, 5) for j in range(numReps)],
+        [random.random()*10 for j in range(numReps)],
+        [random.randint(10, 100) for j in range(numReps)]
+    )])
+    def test_solveModelNSubCut(self, nCompartments: int, endTime: float, numIters: int):
+        params = self.mockParameters()
+        collector = self.mockDataCollector(4+nCompartments)
+        testSubject = pk.NComptSubModelScipy(params, collector, lambda x: 1, endTime, numIters, nCompartments)
+        testSubject.solve()
+        for c in [call('V_c'), call('CL'), call('k_a'), call('q_e0'), call('q_c0')] + \
+                [call('V_p{}'.format(i)) for i in range(1, nCompartments + 1)] + \
+                [call('Q_p{}'.format(i)) for i in range(1, nCompartments+1)] + \
+                [call('q_p{}_0'.format(i)) for i in range(1, nCompartments + 1)]:
+            self.assertIn(c, params.getParam.call_args_list)
+        self.assertEqual(collector.report.call_count, numIters, 'Wrong number of points reported')
+
+
     def mockParameters(self):
         mock = Mock()
         mock.getParam.return_value = 1
