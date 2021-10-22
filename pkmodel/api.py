@@ -1,6 +1,3 @@
-from .plotters.plotFromConfig import PlotFromConfig
-from .plotters.plotFromCSV import PlotFromCSV
-
 import typing
 from .model_factory import ModelFactory
 from .dataCollector_factory import DataCollectorFactory
@@ -172,7 +169,7 @@ def plot_single_file(filename: str, format = 'png'):
     : returns: graph saved to a png
     '''
 
-    figure = PlotFromCSV(filename)
+    figure = PlotterFactory.getPlotFromCSV()(filename)
     figure.plot(format)
 
 
@@ -233,13 +230,14 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) 
     
     # Check one of protocol or protocols is defined
     if "protocol" in cfg:
-        cfg["protocols"] = [cfg["protocol"]]
+        protocols = [cfg["protocol"]]
     else:
         assert "protocols" in cfg, "ModelConfig must contain a 'protocol' or 'protocols' section."
+        protocols = cfg["protocols"]
 
     outfiles = []
     # Run the protocols
-    for protocol in cfg["protocols"]: # Might want to consider making this multithreaded
+    for protocol in protocols: # Might want to consider making this multithreaded
         params = paramClass(numCompartments, **protocol)
         collector = DataCollectorFactory.getNumpyDataCollector()()
         model = modelClass(params, collector, doseFn, tspan, numIterations, numCompartments)
@@ -248,7 +246,6 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) 
             else "tmp_{}".format(str(protocol))
         collector.writeToFile(outfile)
         outfiles.append(outfile)
-
     return outfiles
 
 def process_config(configfile: str, doseFn: typing.Callable[[float], float]):

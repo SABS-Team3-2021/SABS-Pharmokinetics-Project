@@ -5,8 +5,10 @@ import random
 import string
 from parameterized.parameterized import parameterized
 import numpy as np
+import pandas as pd
 import json
 from .config import *
+import builtins
 
 numReps = 25
 doseFns = [lambda t: 0, lambda t: 1, lambda t: t, lambda t: t*t]
@@ -87,7 +89,16 @@ class ApiTest(unittest.TestCase):
     def test_processConfig(self, cfg, doseFn, outfiles):
         with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
             patch('json.load', return_value = cfg) as cfgPatch, \
-            patch('pkmodel.api.solve_model_from_config', return_value = outfiles):
+            patch('pkmodel.api.solve_model_from_config', return_value = outfiles), \
+            patch('matplotlib.pyplot'):
+            pk.process_config("config", doseFn)
+    
+    @parameterized.expand([(c,d, []) for d in doseFns for c in fullConfigSuccess])
+    def test_processConfigWithPlot(self, cfg, doseFn, outfiles):
+        with patch('builtins.open', unittest.mock.mock_open()) as mock_open, \
+            patch('json.load', return_value = cfg) as cfgPatch, \
+            patch('pkmodel.PlotFromCSV.plot'),\
+            patch('pandas.read_csv', return_value = pd.DataFrame(data={'t':[1,2],'d':[2,3],'a':[3,4]})):
             pk.process_config("config", doseFn)
 
     @parameterized.expand([({"aaa": {}},d, []) for d in doseFns])
