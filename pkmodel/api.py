@@ -1,3 +1,6 @@
+from .plotters.plotFromConfig import PlotFromConfig
+from .plotters.plotFromCSV import PlotFromCSV
+
 import typing
 from .model_factory import ModelFactory
 from .dataCollector_factory import DataCollectorFactory
@@ -21,23 +24,26 @@ def solve_iv_toFile(
     tSpan=1,
     numIters=1000,
 ):
-    """Solve IV Model with given parameters and write solution at each iteration to outfile
-        #
-        #
-        : param:
-        V_c float: [mL] - the volume of the central compartment
-        V_p float: [mL] - the volume of the peripheral compartment
-        Q_p float: the transition rate between central compartment and peripheral compartment
-        CL float: [mL/h] - the clearance/elimination rate from the central compartment
-        q_c0 float: [ng] - the initial drug quantity in the central compartment
-        q_p0: [ng] - the initial drug quantity in the central compartment
+    """Solve IV Model with given parameters and write solution at each
+    iteration to outfile.
 
-        Usage::
+    :param V_c: the volume of the central compartment (mL)
+    :param V_p: the volume of the peripheral compartment (mL)
+    :param Q_p: the transition rate between central compartment and peripheral compartment
+    :param CL: the clearance/elimination rate from the central compartment (mL/h)
+    :param q_c0: the initial drug quantity in the central compartment (ng)
+    :param q_p0: the initial drug quantity in the central compartment (ng)
 
-          >>> import pkmodel as pk
-          >>> pk.solve_iv_toFile("outData.csv", Q_p=1, V_c=1, doseFn=lambda t: 1, tSpan=100, numIters=1000)
-          >>> import pandas as pd
-          >>> pd.read_csv("outData.csv")
+
+    Usage:
+    >>> import pkmodel as pk
+    >>> pk.solve_iv_toFile("outData.csv",
+                            Q_p=1, V_c=1,
+                            doseFn=lambda t: 1,
+                            tSpan=100,
+                            numIters=1000)
+    >>> import pandas as pd
+    >>> pd.read_csv("outData.csv")
                       t  dose       q_c       q_p
     0      0.0000   1.0  0.000000  0.000000
     1      0.1001   1.0  0.090864  0.004540
@@ -58,7 +64,8 @@ def solve_iv_toFile(
         Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0
     )
     soln = DataCollectorFactory.getNumpyDataCollector()()
-    model = ModelFactory.getIvModelScipy()(params, soln, doseFn, tSpan, numIters)
+    model = ModelFactory.getIvModelScipy()(params, soln, doseFn, tSpan,
+                                           numIters)
     model.solve()
     soln.writeToFile(outfilename)
 
@@ -77,25 +84,25 @@ def solve_subcut_toFile(
     tSpan=1,
     numIters=1000,
 ):
-    """Solve IV Model with given parameters and write solution at each iteration to outfile
-        #
-        #
-        : param:
-        V_c float: [mL] - the volume of the central compartment
-        V_p float: [mL] - the volume of the peripheral compartment
-        Q_p float: the transition rate between central compartment and peripheral compartment
-        CL float: [mL/h] - the clearance/elimination rate from the central compartment
-        q_c0 float: [ng] - the initial drug quantity in the central compartment
-        q_p0 float: [ng] - the initial drug quantity in the central compartment
-        k_a float: [/h] - the “absorption” rate from the entrance compartment for the subcutaneous dosing
-        q_e0 float: [ng] - the initial drug quantity in the entrance compartment
+    """Solve sub Model with given parameters and write solution at each
+    iteration to outfile
 
-        Usage::
+    :param V_c: the volume of the central compartment (mL)
+    :param V_p: the volume of the peripheral compartment (mL)
+    :param Q_p: the transition rate between central compartment and peripheral compartment
+    :param CL: the clearance/elimination rate from the central compartment (mL/h)
+    :param q_c0: the initial drug quantity in the central compartment (ng)
+    :param q_p0: the initial drug quantity in the central compartment (ng)
+    :param k_a: the “absorption” rate from the entrance compartment for the subcutaneous dosing (/h)
+    :param q_e0: the initial drug quantity in the entrance compartment (ng)
 
-          >>> import pkmodel as pk
-          >>> pk.solve_subcut_toFile("outData.csv", Q_p=1, V_c=1, doseFn=lambda t: 1, tSpan=100, numIters=1000)
-          >>> import pandas as pd
-          >>> pd.read_csv("outData.csv")
+    Usage:
+
+    >>> import pkmodel as pk
+    >>> pk.solve_subcut_toFile("outData.csv", Q_p=1, V_c=1, doseFn=lambda t: 1,
+    tSpan=100, numIters=1000)
+    >>> import pandas as pd
+    >>> pd.read_csv("outData.csv")
                             t  dose       q_e       q_c       q_p
     0      0.0000   1.0  0.000000  0.000000  0.000000
     1      0.1001   1.0  0.095253  0.004540  0.000151
@@ -114,11 +121,13 @@ def solve_subcut_toFile(
 
     """
     params = ParametersFactory.getSubcutParameters()(
-        Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0, k_a=k_a, q_e0=q_e0
+        Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0, k_a=k_a,
+        q_e0=q_e0
     )
     
     soln = DataCollectorFactory.getNumpyDataCollector()()
-    model = ModelFactory.getSubModelScipy()(params, soln, doseFn, tSpan, numIters)
+    model = ModelFactory.getSubModelScipy()(params, soln, doseFn, tSpan,
+                                            numIters)
     model.solve()
     soln.writeToFile(outfilename)
     
@@ -126,10 +135,11 @@ def solve_subcut_toFile(
 
 def create_expDecay_dosing(A: float, k: float):
     """Create an Exponentially decaying dosing profile (A*exp(-k*t))
-    : param: A float: Dose at t=0
-    : param: k float: Dosing decay rate
-    : returns: Dosing Profile
-    : rtype: Callable[[float], float]
+
+    :param A float: Dose at t=0
+    :param k float: Dosing decay rate
+    :returns: Dosing Profile
+    :rtype: Callable[[float], float]
     """
 
     def inner(t: float) -> float:
@@ -140,16 +150,16 @@ def create_expDecay_dosing(A: float, k: float):
 
 def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
     """Create a Periodic dosing profile
-    # ------------------------------------------------------------
-    # Create a dosing profile which oscillates between high and low values.
-    # Remains high for timeHigh and low for lowHigh each period
-    # ------------------------------------------------------------
-    : param: timeHigh float: Time dosing remains at highVal
-    : param: timeLow float: Time dosing remains at lowVal
-    : param: highVal float: dosing ammount during high levels
-    : param: lowVal float: dosing level during low levels
-    : returns: Dosing Profile
-    : rtype: Callable[[float], float]
+
+    Create a dosing profile which oscillates between high and low values.
+    Remains high for timeHigh and low for lowHigh each period
+
+    :param timeHigh: Time dosing remains at highVal (float)
+    :param timeLow: Time dosing remains at lowVal (float)
+    :param highVal: dosing ammount during high levels (float)
+    :param lowVal: dosing level during low levels (float)
+    :returns: Dosing Profile
+    :rtype: Callable[[float], float]
     """
 
     def inner(t: float) -> float:
@@ -160,56 +170,61 @@ def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
 
 
 def plot_single_file(filename: str, format = 'png'):
-    '''
-    Creates a single plot comparing the drug concentrations in different 
+    """Creates a single plot comparing the drug concentrations in different
     compartments. The dose rate is given on a second axis for comparison.
-    
-    : param: filename str: a .csv file
-    : param: format str: required image file format
-    : returns: graph saved to a png
-    '''
+
+    :param filename: a .csv file (str)
+    :param format: required image file format (str)
+    :returns: graph saved to a png
+    """
 
     figure = PlotterFactory.getPlotFromCSV()(filename)
     figure.plot(format)
 
 
 def plot_varying_parameter(config_dir: dir, filenames: list):
-    '''
-    Takes a configuration directory containing various initial setups
+    """ Takes a configuration directory containing various initial setups
     and outputs a graphs comparing different parameters across those files.
 
-    : param: filenames list: list of strings of flenames, all in the same directory
-    : param: config_dir: directory containing configurable information, including
+    :param filenames: list of strings of filenames, all in the same directory
+    :param config_dir: directory containing configurable information, including
         the variable being compared across files.
-    : returns: multiple graphs for each given variable. All saved to png files
-    '''
+    :returns: multiple graphs for each given variable. All saved to png files
+    """
 
     figure = PlotFromConfig(config_dir, filenames)
     figure.plot()
     
 def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typing.Callable[[float], float]:
+    """Create a single pulse dosing function.
 
+    :param tStart: time of start of the pulse (float)
+    :param tStop: time of stop of the pulse (float)
+    :param dose: dose quantity concentration (float)
+    """
     ret = blockPulse()
     ret.add_pulse(tStart, tStop, dose)
     return ret
 
 def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) -> typing.List[str]:
     """ Solve a model defined by a ModelConfig dictionary.
-    # Solves a specified N-compartment model for a timespan and number of iterations with protocol(s) specified in config
-    # Returns list of output filenames which contain the data from the protocols
-    
-    Usage::
+    Solves a specified N-compartment model for a timespan and number of
+    iterations with protocol(s) specified in config.
+    Returns list of output filenames which contain the data from the protocols.
 
+    :param cfg: Model Configuration in a dictionary
+                (i.e. read in from a json file)
+    :param doseFn: Dosing function for models
+    :returns: List of output file strings.
+    :rtype: typing.List[str]
+
+    Usage:
+    
     >>> import pkmodel as pk
     >>> import json
     >>> cfg = json.load(open('modelConfig.json', 'r'))
     >>> pk.solve_model_from_config(cfg, lambda t: 1)
         ['protocol1Output.csv', 'protocol2Output.csv']
-
-    : param: cfg dict: Model Configuration in a dictionary (i.e. read in from a json file)
-    : param: doseFn: Dosing function for models
-    : returns: List of output file strings.
-    : rtype: typing.List[str]
     """
     # Check model is specified in config
     assert "model" in cfg, "Config is missing \"model\", to specify model type."
@@ -246,26 +261,29 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) 
             else "tmp_{}".format(str(protocol))
         collector.writeToFile(outfile)
         outfiles.append(outfile)
+
     return outfiles
 
 def process_config(configfile: str, doseFn: typing.Callable[[float], float]):
     """ Run a process defined by a config file.
-    # The config file defines a model which is to be run, with customisable number of protocols.
-    # The Dose Function is supplied as a separate argument
-    #
-    # Config file must contain a "modelConfig" section, which defines the model.
-    # This section must contain tspan, numIterations, numCompartments and either of protocol or protocols.
-    #
-    # Config file can also contain a section to define how the solutions should be plotted.
-    # 
+    The config file defines a model which is to be run, with customisable
+    number of protocols.
+    The Dose Function is supplied as a separate argument
 
-    Usage::
+    Config file must contain a "modelConfig" section, which defines the model.
+    This section must contain tspan, numIterations, numCompartments and either
+    of protocol or protocols.
+    Config file can also contain a section to define how the solutions should
+    be plotted.
+    
+    :param configfile: filename of config json file (str)
+    :param doseFn: Dose function
+    
+    Usage:
 
     >>> import pkmodel as pk
     >>> pk.process_config('config.json', pk.create_singlePulse_dosing(0, 0.1, 1))
 
-    : param: configfile str: filename of config json file.
-    : param: doseFn typing.Callable[[float], float]: Dose function
     """
     cfg = json.load(open(configfile, 'r'))
     assert "modelConfig" in cfg, "Config file is missing modelConfig section."
