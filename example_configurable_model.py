@@ -1,13 +1,8 @@
 import pkmodel as pk
-import json
 
-config_file = json.load(open('config.json'))
-pk.run(config_file)
-
-
-def run(config_file):
-    assert "modelConfig" in config_file
-    outfiles = pk.solveModelFromConfig(config_file["modelConfig"])
-    if "plotConfig" in config_file:
-        pk.plot_vary_parameter(config_file, outfiles)
-
+'''
+Most of the configuration is given in the json file, with only the dosefunction
+needing to be independantly set.
+'''
+doseFn = pk.create_periodic_dosing(.2, 5, 2, lowVal=0)
+pk.process_config('example_configurable_directory.json', doseFn)

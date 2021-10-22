@@ -1,22 +1,24 @@
 {
     "modelConfig": {
-        "model": "NDimIV",
-        "protocols": [{"Q_pc": 0, "V_c" : 1.0,
-            "V_p": 1.0, "CL": 1.0, "q_c0" :0.0, "q_p0":0.0,
-            "outfile": "config_run/run1"}, 
-            {"Q_pc" : 1.0, "V_c" : 1.0,
-                "V_p": 1.0, "CL": 1.0, "q_c0" :0.0, "q_p0":0.0,
-                "outfile": "config_run/run2"}],
-        "numIterations": 100,
-        "numCompartments": 10,
+        "model": "iv",
+        "protocols": [{"Q_p1": 2, "Q_p2": 0, "V_c" : 1.0,
+            "V_p1": 1.0, "V_p2": 1.0, "CL": 1.0, "q_c0" :0.0, 
+            "q_p1_0":0.0, "q_p2_0":0.0,
+            "outfile": "example/run1"}, 
+            {"Q_p1": 1, "Q_p2": 0, "V_c" : 1.0,
+                "V_p1": 1.0, "V_p2": 1.0, "CL": 1.0, "q_c0" :0.0, 
+                "q_p1_0":0.0, "q_p2_0":0.0,
+                "outfile": "example/run2"}],
+        "numIterations": 10000,
+        "numCompartments": 2,
         "tspan": 10
     },
 
     "plotConfig": {
-        "plotVars": ["q_c0"],
+        "plotVars": ["q_c"],
         "DoseLine": true,
         "DoseLineColour": ["r"],
-        "ParameterLineColours": ["k", "b", "g"],
+        "ParameterLineColour": ["k", "b"],
         "ParameterLabels": [],
         "ImageFileFormat": "png"
     }
