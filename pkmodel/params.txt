@@ -5,7 +5,7 @@ Variables in the IV (Intravenous Bolus) Model:
     V_c: [mL] - the volume of the central compartment
     V_p: [mL] - the volume of the peripheral compartment
 
-    Q_pc: [mL/h] - the transition rate between central compartment and peripheral compartment
+    Q_p: [mL/h] - the transition rate between central compartment and peripheral compartment
     CL: [mL/h] - the clearance/elimination rate from the central compartment
 
     q_c0: [ng] - the initial drug quantity in the central compartment

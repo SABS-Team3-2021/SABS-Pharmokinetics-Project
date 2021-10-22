@@ -89,7 +89,7 @@ where the variables are defined as:
  * `V_c`: _[mL]_ - the volume of the central compartment
  * `V_p`: _[mL]_ - the volume of the peripheral compartment
 
- * `Q_pc`: _[mL/h]_ - the transition rate between central compartment and peripheral compartment
+ * `Q_p`: _[mL/h]_ - the transition rate between central compartment and peripheral compartment
  * `CL:` _[mL/h]_ - the clearance/elimination rate from the central compartment
  * `k_a`: _[/h]_ - the “absorption” rate from the entrance compartment for the subcutaneous dosing 
 
