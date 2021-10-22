@@ -1,0 +1,13 @@
+{
+    "modelConfig": {
+        "model": "NDimIV",
+        "protocols": [{"Q_pc": 0, "outfile": "run1"}, {"Q_pc": 1, "outfile": "run2"}],
+        "numIterations": 100,
+        "tspan": 10
+    },
+
+    "plotConfig": {
+        "plotData": ["q_p1"]
+    }
+
+}
