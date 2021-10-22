@@ -1,9 +1,11 @@
+import typing
 from .parameters.parameters_iv import IV_Parameters
 from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 from .models.iv_model_scipy import IvModelScipy
 from .parameters.parameters_sub import Subcut_Parameters
 from .models.sub_model_scipy import SubModelScipy
 import numpy as np
+from .Block_pulse_dose import blockPulse
 
 def solve_iv_toFile(outfilename,
         Q_pc=1, V_c=1, V_p=1, CL=1, q_c0=0, q_p0=0,
@@ -80,3 +82,8 @@ def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
         phase = t%(timeHigh+timeLow)
         return highVal if phase <= timeHigh else lowVal
     return inner
+
+def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typing.Callable[[float], float]:
+    ret = blockPulse()
+    ret.add_pulse(tStart, tStop, dose)
+    return ret
