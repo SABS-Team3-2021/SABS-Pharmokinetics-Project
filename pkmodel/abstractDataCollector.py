@@ -1,40 +1,46 @@
-#
-# Abstract Solution class
-#
-
 from abc import ABC, abstractmethod
 import numpy as np
 
+
 class AbstractDataCollector(ABC):
-    """A Pharmokinetic (PK) model solution
+    """Abstract class for the Data Collector.
 
-    Takes solutions from the pharmakinetic model at each timestep and stores as a numpy array
-    ----------
-
-    value: numeric, optional
-        an example paramter
+    Class receives data from model and saves to a numpy array
+    with an option to write to a csv file.
 
     """
 
     @abstractmethod
-    def begin(self, names: list, number_timesteps: int): pass
-    
+    def begin(self, names: list, number_timesteps: int):
+        """Initialises a numpy array of a given size, ready to receive data.
+
+        :param names: list of the variables' names
+        :param number_timesteps: number of time steps in the model's resolution
+        """
+        pass
+
     @abstractmethod
     def report(self, data) -> None:
-        """ Report data as a column vector
-        at each timestep
+        """Input data as a column vector into the array at each timestep
+
+        :param data: numpy array of the data to report
+        :return: data in the right shape
+        :rtype: numpy array
         """
         pass
 
     @abstractmethod
     def __getitem__(self, i: int) -> np.ndarray:
-        """ Return data as a column vector
+        """Return data as a column vector at a time point requested. Asserts
+        timepoint is within the 'past' of the model.
         """
         pass
 
     @abstractmethod
     def writeToFile(self, filename: str) -> None:
-        """ Write data to a file to be stored
+        """Opens a given filename and writes data in csv format.
+
+        :param filename: name of the file to open
         """
         pass
 
