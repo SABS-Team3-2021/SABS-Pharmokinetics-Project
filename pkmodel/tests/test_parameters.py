@@ -41,3 +41,12 @@ class TestParameters(unittest.TestCase):
         self.helperTestStr(pk.Subcut_Parameters, {'Q_p', 'V_c', 'V_p', 'CL', 'k_a', 'q_c0', 'q_p0', 'q_e0'})
         self.helperTestGetKeys(pk.Subcut_Parameters, {'Q_p', 'V_c', 'V_p', 'CL', 'k_a', 'q_c0', 'q_p0', 'q_e0'})
     
+    def test_NIVParameters(self):
+        testSubject = pk.IVNCompartmentParameters(0, Q_p=0, V_c=0, CL=0, q_c0=1)
+        str(testSubject)
+        testSubject.getParameterNames()
+
+    def test_NSubCutParameters(self):
+        testSubject = pk.SubCutNCompParameters(0, Q_p=0, V_c=0, CL=0, q_c0=1, k_a=0, q_e0=1)
+        str(testSubject)
+        testSubject.getParameterNames()
