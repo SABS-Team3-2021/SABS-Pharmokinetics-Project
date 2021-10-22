@@ -1,10 +1,23 @@
 Documentation of the modules
 ============================================================
 
+
 .. automodule:: pkmodel
    :members:
 
 |
+
+
+=========================================
+API
+=========================================
+
+.. automodule:: pkmodel.api 
+   :members:
+   :inherited-members:
+
+|
+
 
 =========================================
 Abstract classes
@@ -33,6 +46,18 @@ Abstract classes
 
 |
 
+
+=========================================
+Dosing function
+=========================================
+
+.. automodule:: pkmodel.Block_pulse_dose
+   :members:
+   :inherited-members:
+
+|
+
+
 =========================================
 Parameters
 =========================================
@@ -48,6 +73,17 @@ Parameters
 
 |
 
+.. automodule:: pkmodel.parameters.iv_nCompartment_parameters
+   :members:
+   :inherited-members:
+
+|
+
+.. automodule:: pkmodel.parameters.sub_nCompartment_parameters
+   :members:
+   :inherited-members:
+
+|
 
 =========================================
 Models
@@ -65,6 +101,12 @@ Models
 
 |
 
+.. automodule:: pkmodel.models.iv_model_ncompt_scipy
+   :members:
+   :inherited-members:
+
+|
+
 .. automodule:: pkmodel.models.sub_model_scipy
    :members:
    :inherited-members:
@@ -77,6 +119,11 @@ Models
 
 |
 
+.. automodule:: pkmodel.models.sub_model_ncompt_scipy
+   :members:
+   :inherited-members:
+
+|
 
 =========================================
 Data Collector
@@ -94,5 +141,11 @@ Plotters
 =========================================
 
 .. automodule:: pkmodel.plotters.plotFromCSV
+   :members:
+   :inherited-members:
+
+|
+
+.. automodule:: pkmodel.plotters.plotFromConfig
    :members:
    :inherited-members:
