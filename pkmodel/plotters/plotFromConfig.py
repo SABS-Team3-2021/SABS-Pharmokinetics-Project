@@ -1,4 +1,5 @@
 import numpy as np
+
 from ..abstractPlotter import AbstractPlotter
 from matplotlib import pyplot as plt
 import pandas as pd
