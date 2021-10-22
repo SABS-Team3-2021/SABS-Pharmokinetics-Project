@@ -10,9 +10,14 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('../..'))
+sys.path.append('/home/sabsr3/SABS-Pharmokinetics-Project/pkmodel')
+sys.path.append('/home/sabsr3/SABS-Pharmokinetics-Project/pkmodel/models')
+sys.path.append('/home/sabsr3/SABS-Pharmokinetics-Project/pkmodel/parameters')
+#sys.path.append(os.path.abspath('../pkmodel'))
+#sys.path.append(os.path.abspath('../pkmodel/models'))
 
 
 # -- Project information -----------------------------------------------------
@@ -28,7 +33,8 @@ author = 'Nicholas Fan, Elizabeth Hayman, Luke Heirene, Kit Gallagher, and  Patr
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    
+    'sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
+    'sphinx.ext.autosummary'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
