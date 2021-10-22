@@ -7,7 +7,7 @@ saved to a csv file in the 'example' folder. The data is then plotted
 and saved as a .png file.
 """
 
-import pkmodel as pk
+import pk_model as pk
 
 # Manually set model parameters and initial conditions for the IV model
 paramsIV = pk.IV_Parameters(
@@ -45,9 +45,9 @@ modelScipyIV.solve()
 modelScipySub.solve()
 
 # Saves the data as a .csv file in the example folder
-solnScipyIV.writeToFile("example/iv_scipy.csv")
-solnScipySub.writeToFile("example/sub_scipy.csv")
+solnScipyIV.writeToFile("data/iv_scipy.csv")
+solnScipySub.writeToFile("data/sub_scipy.csv")
 
 # Takes the data from the csv file, plots and saves the image.
-pk.PlotFromCSV("example/iv_scipy.csv").plot("png")
-pk.PlotFromCSV("example/sub_scipy.csv").plot("png")
+pk.PlotFromCSV("data/iv_scipy.csv").plot("png")
+pk.PlotFromCSV("data/sub_scipy.csv").plot("png")

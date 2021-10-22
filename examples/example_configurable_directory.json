@@ -4,11 +4,11 @@
         "protocols": [{"Q_p1": 2, "Q_p2": 0, "V_c" : 1.0,
             "V_p1": 1.0, "V_p2": 1.0, "CL": 1.0, "q_c0" :0.0, 
             "q_p1_0":0.0, "q_p2_0":0.0,
-            "outfile": "example/run1"}, 
+            "outfile": "data/run1.csv"}, 
             {"Q_p1": 1, "Q_p2": 0, "V_c" : 1.0,
                 "V_p1": 1.0, "V_p2": 1.0, "CL": 1.0, "q_c0" :0.0, 
                 "q_p1_0":0.0, "q_p2_0":0.0,
-                "outfile": "example/run2"}],
+                "outfile": "data/run2.csv"}],
         "numIterations": 10000,
         "numCompartments": 2,
         "tspan": 10

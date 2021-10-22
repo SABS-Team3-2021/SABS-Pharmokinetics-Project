@@ -1,4 +1,4 @@
-import pkmodel as pk
+import pk_model as pk
 
 '''
 Most of the configuration is given in the json file, with only the dosefunction
