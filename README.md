@@ -89,7 +89,7 @@ where the variables are defined as:
  * `V_c`: _[mL]_ - the volume of the central compartment
  * `V_p`: _[mL]_ - the volume of the peripheral compartment
 
- * `Q_pc`: _[mL/h]_ - the transition rate between central compartment and peripheral compartment
+ * `Q_p`: _[mL/h]_ - the transition rate between central compartment and peripheral compartment
  * `CL:` _[mL/h]_ - the clearance/elimination rate from the central compartment
  * `k_a`: _[/h]_ - the “absorption” rate from the entrance compartment for the subcutaneous dosing 
 
@@ -104,6 +104,10 @@ where the variables are defined as:
 
 
 <img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">
+
+These equations can be expressed diagramatically:
+
+![IV Model Structure](images/IV_model.png)
 
 ## Output Structure
 The analysis code outputs a labelled `.csv` file, with the time, dose function and drug quantity for each compartment. Users can conduct independant analysis on these files, however we have also implemented basic analysis methods that take these data files and plot the drug quantities in each compartment over time.
