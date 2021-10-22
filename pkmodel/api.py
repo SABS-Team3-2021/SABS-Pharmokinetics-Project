@@ -3,6 +3,8 @@ from .dataCollectors.dataCollector_numpy import NumpyDataCollector
 from .models.iv_model_scipy import IvModelScipy
 from .parameters.parameters_sub import Subcut_Parameters
 from .models.sub_model_scipy import SubModelScipy
+from .plotters.plotFromConfig import PlotFromConfig
+from .plotters.plotFromCSV import PlotFromCSV
 import numpy as np
 
 def solve_iv_toFile(outfilename,
@@ -50,6 +52,7 @@ def solve_subcut_toFile(outfilename,
     model = SubModelScipy(params, soln, doseFn, tSpan, numIters)
     model.solve()
     soln.writeToFile(outfilename)
+    
 
 
 def create_expDecay_dosing(A: float, k: float):
@@ -77,6 +80,35 @@ def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
     : rtype: Callable[[float], float]
     """
     def inner(t: float) -> float:
-        phase = t%(timeHigh+timeLow)
+        phase = t%(timeHigh + timeLow)
         return highVal if phase <= timeHigh else lowVal
     return inner
+
+
+def plot_single_file(filename: str, format = 'png'):
+    '''
+    Creates a single plot comparing the drug concentrations in different 
+    compartments. The dose rate is given on a second axis for comparison.
+    
+    : param: filename str: a .csv file
+    : param: format str: required image file format
+    : returns: graph saved to a png
+    '''
+
+    figure = PlotFromCSV(filename)
+    figure.plot(format)
+
+
+def plot_varying_parameter(config_dir: dir, filenames: list):
+    '''
+    Takes a configuration directory containing various initial setups
+    and outputs a graphs comparing different parameters across those files.
+
+    : param: filenames list: list of strings of flenames, all in the same directory
+    : param: config_dir: directory containing configurable information, including
+        the variable being compared across files.
+    : returns: multiple graphs for each given variable. All saved to png files
+    '''
+
+    figure = PlotFromConfig(config_dir, filenames)
+    figure.plot()

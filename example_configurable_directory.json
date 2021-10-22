@@ -13,7 +13,7 @@
     },
 
     "plotConfig": {
-        "plotVars": ["q_p1"],
+        "plotVars": ["q_c0"],
         "DoseLine": true,
         "DoseLineColour": ["r"],
         "ParameterLineColours": ["k", "b", "g"],

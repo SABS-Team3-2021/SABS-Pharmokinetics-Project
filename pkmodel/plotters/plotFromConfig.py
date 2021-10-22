@@ -1,4 +1,4 @@
-#from numpy import VisibleDeprecationWarning
+import numpy as np
 from ..abstractPlotter import AbstractPlotter
 from matplotlib import pyplot as plt
 import pandas as pd
@@ -39,7 +39,7 @@ class PlotFromConfig(AbstractPlotter):
                 # loop through the information in each file
                 full_run_data = pd.read_csv(file, delimiter=',')
                 var_names = full_run_data.columns.tolist()
-                # Variable names and data position may change 
+                # Variable names and data position may change
                 # depending on the model used.
 
                 full_data = pd.DataFrame(full_run_data).to_numpy()
@@ -50,11 +50,15 @@ class PlotFromConfig(AbstractPlotter):
                     Label = "run" + '=' + str(i + 1)
                 else:
                     Label = self.config["ParameterLabels"][i]
-                if not self.config["ParameterLineColour"]:
-                    axes1.plot(time, data, label=Label)
+                if len(self.config["ParameterLineColour"]) != len(self.data_files):
+                    colours = plt.cm.viridis(np.linspace(0, .67, 
+                                             len(self.data_files)))
+                    colour = colours[i]
                 else:
-                    axes1.plot(time, data, label=Label,
-                               color=self.config["ParameterLineColour"][i])
+                    colour = self.config["ParameterLineColour"][i]
+                
+                axes1.plot(time, data, label=Label,
+                           color=colour)
 
                 if self.config["DoseLine"]:
                     if len(self.config["DoseLineColour"]) == 0:
@@ -80,8 +84,7 @@ class PlotFromConfig(AbstractPlotter):
             axes1.legend()
             fig.tight_layout()
             file_root = str(var)
-            fig_file = str(file_root) + '.' + ...
-            str(self.config["ImageFileFormat"])
+            fig_file = str(file_root) + '.' + str(self.config["ImageFileFormat"])
             # Figure is saved using the plotted variable name,
             # and saved in the given format.
             fig.savefig(fig_file)

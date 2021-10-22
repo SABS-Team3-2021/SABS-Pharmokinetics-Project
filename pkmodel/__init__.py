@@ -15,7 +15,8 @@ from .abstractDataCollector import AbstractDataCollector     # noqa
 from .abstractPlotter import AbstractPlotter
 
 from .api import solve_iv_toFile, solve_subcut_toFile,\
-    create_expDecay_dosing, create_periodic_dosing
+    create_expDecay_dosing, create_periodic_dosing,\
+         plot_single_file, plot_varying_parameter
 
 # Import Parameters
 from .parameters.parameters_iv import IV_Parameters
