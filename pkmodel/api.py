@@ -124,12 +124,13 @@ def solve_subcut_toFile(
         Q_p=Q_p, V_c=V_c, V_p=V_p, CL=CL, q_c0=q_c0, q_p0=q_p0, k_a=k_a,
         q_e0=q_e0
     )
-
+    
     soln = DataCollectorFactory.getNumpyDataCollector()()
     model = ModelFactory.getSubModelScipy()(params, soln, doseFn, tSpan,
                                             numIters)
     model.solve()
     soln.writeToFile(outfilename)
+    
 
 
 def create_expDecay_dosing(A: float, k: float):
@@ -162,13 +163,13 @@ def create_periodic_dosing(timeHigh, timeLow, highVal, lowVal=0):
     """
 
     def inner(t: float) -> float:
-        phase = t % (timeHigh + timeLow)
+        phase = t%(timeHigh + timeLow)
         return highVal if phase <= timeHigh else lowVal
 
     return inner
 
 
-def plot_single_file(filename: str, format='png'):
+def plot_single_file(filename: str, format = 'png'):
     """Creates a single plot comparing the drug concentrations in different
     compartments. The dose rate is given on a second axis for comparison.
 
@@ -177,7 +178,7 @@ def plot_single_file(filename: str, format='png'):
     :returns: graph saved to a png
     """
 
-    figure = PlotFromCSV(filename)
+    figure = PlotterFactory.getPlotFromCSV()(filename)
     figure.plot(format)
 
 
@@ -193,10 +194,8 @@ def plot_varying_parameter(config_dir: dir, filenames: list):
 
     figure = PlotFromConfig(config_dir, filenames)
     figure.plot()
-
-
-def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> \
-        typing.Callable[[float], float]:
+    
+def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> typing.Callable[[float], float]:
     """Create a single pulse dosing function.
 
     :param tStart: time of start of the pulse (float)
@@ -207,9 +206,7 @@ def create_singlePulse_dosing(tStart: float, tStop: float, dose: float) -> \
     ret.add_pulse(tStart, tStop, dose)
     return ret
 
-
-def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float],
-                            float]) -> typing.List[str]:
+def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float], float]) -> typing.List[str]:
     """ Solve a model defined by a ModelConfig dictionary.
     Solves a specified N-compartment model for a timespan and number of
     iterations with protocol(s) specified in config.
@@ -222,7 +219,7 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float],
     :rtype: typing.List[str]
 
     Usage:
-
+    
     >>> import pkmodel as pk
     >>> import json
     >>> cfg = json.load(open('modelConfig.json', 'r'))
@@ -245,16 +242,17 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float],
     assert "numCompartments" in cfg, "Model config is missing 'numCompartments'"
     tspan, numIterations = cfg["tspan"], cfg["numIterations"]
     numCompartments = cfg["numCompartments"]
-
+    
     # Check one of protocol or protocols is defined
     if "protocol" in cfg:
-        cfg["protocols"] = [cfg["protocol"]]
+        protocols = [cfg["protocol"]]
     else:
         assert "protocols" in cfg, "ModelConfig must contain a 'protocol' or 'protocols' section."
+        protocols = cfg["protocols"]
 
     outfiles = []
     # Run the protocols
-    for protocol in cfg["protocols"]:  # Might want to consider making this multithreaded
+    for protocol in protocols: # Might want to consider making this multithreaded
         params = paramClass(numCompartments, **protocol)
         collector = DataCollectorFactory.getNumpyDataCollector()()
         model = modelClass(params, collector, doseFn, tspan, numIterations, numCompartments)
@@ -265,7 +263,6 @@ def solve_model_from_config(cfg: dict, doseFn: typing.Callable[[float],
         outfiles.append(outfile)
 
     return outfiles
-
 
 def process_config(configfile: str, doseFn: typing.Callable[[float], float]):
     """ Run a process defined by a config file.
@@ -278,19 +275,23 @@ def process_config(configfile: str, doseFn: typing.Callable[[float], float]):
     of protocol or protocols.
     Config file can also contain a section to define how the solutions should
     be plotted.
-
+    
+    :param configfile: filename of config json file (str)
+    :param doseFn: Dose function
+    
     Usage:
 
     >>> import pkmodel as pk
     >>> pk.process_config('config.json', pk.create_singlePulse_dosing(0, 0.1, 1))
 
-    :param configfile: filename of config json file (str)
-    :param doseFn: Dose function
     """
     cfg = json.load(open(configfile, 'r'))
     assert "modelConfig" in cfg, "Config file is missing modelConfig section."
     outfiles = solve_model_from_config(cfg["modelConfig"], doseFn)
 
     if "plotConfig" in cfg:
-        pass
+        if len(outfiles) == 1:
+            plot_single_file(outfiles[0])
+        elif len(outfiles) > 1:
+            plot_varying_parameter(cfg["plotConfig"], outfiles)
 
