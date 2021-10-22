@@ -11,10 +11,10 @@ ivSubjects = [pk.IvModelScipy, pk.IVModelBckEuler]
 subSubjects = [pk.SubModelScipy, pk.SubModelBckEuler]
 
 def generateIVParams(reps: int):
-    return [pk.IV_Parameters(Q_pc=1,V_c=1,V_p=1,CL=1,q_c0=random.random(),q_p0=random.random())for j in range(reps)]
+    return [pk.IV_Parameters(Q_p=1,V_c=1,V_p=1,CL=1,q_c0=random.random(),q_p0=random.random())for j in range(reps)]
 
 def generateSubParams(reps: int):
-    return [pk.Subcut_Parameters(Q_pc=1,V_c=1,V_p=1,CL=1,k_a=1,q_e0=0,q_c0=0,q_p0=0)for j in range(reps)]
+    return [pk.Subcut_Parameters(Q_p=1,V_c=1,V_p=1,CL=1,k_a=1,q_e0=0,q_c0=0,q_p0=0)for j in range(reps)]
 
 
 

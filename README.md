@@ -2,6 +2,7 @@
 
 [![Unit tests](https://github.com/SABS-best-team/SABS-Pharmokinetics-Project/actions/workflows/ci-unittests.yml/badge.svg)](https://github.com/SABS-best-team/SABS-Pharmokinetics-Project/actions/workflows/ci-unittests.yml)
 [![Coverage](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project/branch/master/graph/badge.svg?token=TBF4J7A9I3)](https://codecov.io/gh/SABS-best-team/SABS-Pharmokinetics-Project)
+[![Documentation Status](https://readthedocs.org/projects/sabs-pharmokinetics-project/badge/?version=latest)](https://sabs-pharmokinetics-project.readthedocs.io/en/latest/?badge=latest)
 
 `SABS-Pharmokinetics-Project` provides a user-friendly interface for anyone to explore the behaviour of a basic pharmokinetics model.
 
@@ -82,20 +83,22 @@ This is expressed within the 'sub' model for a subcutaneous dosing control (for 
 
 <img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">
 
-
-
 where the variables are defined as:
 
  * `V_c`: _[mL]_ - the volume of the central compartment
  * `V_p`: _[mL]_ - the volume of the peripheral compartment
 
- * `Q_pc`: _[mL/h]_ - the transition rate between central compartment and peripheral compartment
+ * `Q_p`: _[mL/h]_ - the transition rate between central compartment and peripheral compartment
  * `CL:` _[mL/h]_ - the clearance/elimination rate from the central compartment
  * `k_a`: _[/h]_ - the “absorption” rate from the entrance compartment for the subcutaneous dosing 
 
  * `q_c0`: _[ng]_ - the initial drug quantity in the central compartment
  * `q_p0`: _[ng]_ - the initial drug quantity in the periphery compartment
  * `q_e0`: _[ng]_ - the initial drug quantity in the entrance compartment
+
+ These equations can be expressed in the following compartent model:
+
+![Sub Model Structure](images/SubCut_model.png)
 
  ### Intravenous Bolus (IV) Model
  An alternative dosing protocol we represent here is the Intravenous Bolus (IV), where direct injection allows much faster drug delivery. This negates the role of the entrance component, and so the dose is delivered directly to the central compartment. This may be represented by the simpler set of equations, where all terms are defined as above,
@@ -104,6 +107,10 @@ where the variables are defined as:
 
 
 <img src="https://render.githubusercontent.com/render/math?math=\frac{dq_{p}}{dt} = Q_{pc} \left( \frac{q_{c}}{V_{c}} - \frac{q_{p}}{V_{p}} \right)">
+
+These equations can be expressed diagramatically:
+
+![IV Model Structure](images/IV_model.png)
 
 ## Output Structure
 The analysis code outputs a labelled `.csv` file, with the time, dose function and drug quantity for each compartment. Users can conduct independant analysis on these files, however we have also implemented basic analysis methods that take these data files and plot the drug quantities in each compartment over time.

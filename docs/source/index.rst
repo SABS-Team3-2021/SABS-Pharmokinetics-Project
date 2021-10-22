@@ -10,14 +10,11 @@ Welcome to Pharmokinetics Modelling Project's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. autoclass:: abstractParameters
-   :members:
+   install 
+   modules 
+   support 
+   license
 
-.. autoclass:: parameters_iv
-   :members:
-
-.. autoclass:: parameters_sub
-   :members:
 
 Indices and tables
 ==================
