@@ -1,11 +1,13 @@
 import pkmodel as pk
 import json
 
-cfg = json.load(open('config.json'))
-pk.run(cfg)
+config_file = json.load(open('config.json'))
+pk.run(config_file)
 
-def run(cfg):
-    assert "modelConfig" in cfg
-    outfiles = solveModelFromConfig(cfg["modelConfig"])
-    if "plotConfig" in cfg:
-        plotFromConfig(cfg["plotConfig"], outfiles)
+
+def run(config_file):
+    assert "modelConfig" in config_file
+    outfiles = pk.solveModelFromConfig(config_file["modelConfig"])
+    if "plotConfig" in config_file:
+        pk.plotFromConfig(config_file, outfiles)
+
